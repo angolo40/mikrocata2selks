@@ -1,0 +1,9 @@
+[Match]
+Name=tzsp*
+
+[Link]
+MTUBytes=2000
+
+[Network]
+Address=192.168.254.10/24
+DHCP=no

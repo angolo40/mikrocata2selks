@@ -1,0 +1,10 @@
+%YAML 1.1
+---
+
+outputs:
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: alerts.json
+      types:
+        - alert

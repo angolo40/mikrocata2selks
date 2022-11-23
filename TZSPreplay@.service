@@ -1,0 +1,15 @@
+[Unit]
+Description=TZSP Replay on dev %i
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "/usr/local/bin/tzsp2pcap -f | /usr/local/bin/tcpreplay-edit --topspeed --mtu=$(cat /sys/class/net/%I/mtu) --mtu-trunc -i %I -"
+Restart=always
+RestartSec=3
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target' > /etc/systemd/system/TZSPreplay@.service
