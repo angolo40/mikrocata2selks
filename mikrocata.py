@@ -44,7 +44,7 @@ enable_telegram = False
 # (don't leave empty string)
 WAN_IP = "yourpublicip"
 LOCAL_IP_PREFIX = "192.168."
-WHITELIST_IPS = (WAN_IP, LOCAL_IP_PREFIX, "127.0.0.1", "")
+WHITELIST_IPS = (WAN_IP, LOCAL_IP_PREFIX, "127.0.0.1", "1.1.1.1", "8.8.8.8")
 COMMENT_TIME_FORMAT = "%-d %b %Y %H:%M:%S.%f"  # See datetime strftime formats.
 
 # Save Mikrotik address lists to a file and reload them on Mikrotik reboot.
