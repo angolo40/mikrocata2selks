@@ -39,8 +39,8 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 
 ## Show your support
 
-Give a ⭐️ if this project helped you!
-Buy me a coffee:
+- Give a ⭐️ if this project helped you!
+- Buy me a coffee: 
 ![Bitcoin](https://img.shields.io/badge/Bitcoin-000?style=for-the-badge&logo=bitcoin&logoColor=white)
 
 ## 📝 License
