@@ -35,8 +35,7 @@
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/angolo40/mikrocata2selks). You can also take a look at the [contributing guide](https://github.com/angolo40/mikrocata2selks).
-
+- Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/angolo40/mikrocata2selks).
 ## Show your support
 
 - Give a ⭐️ if this project helped you!
