@@ -51,4 +51,9 @@ Copyright © 2022 [Giuseppe Trifilio](https://github.com/angolo40).<br />
 This project is [MIT](https://github.com/angolo40/mikrocata2selks) licensed.
 
 ***
+
+## Support
+![Bitcoin](https://img.shields.io/badge/Bitcoin-000?style=for-the-badge&logo=bitcoin&logoColor=white)
+
+***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
