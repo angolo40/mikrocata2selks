@@ -39,7 +39,6 @@
 ## 📝 License
 
 Copyright © 2022 [Giuseppe Trifilio](https://github.com/angolo40).<br />
-This project is [MIT](https://github.com/angolo40/mikrocata2selks) licensed.
 
 ***
 
