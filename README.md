@@ -14,10 +14,6 @@
 
 > Script for auto-install Selks and mikrocata on Debian 11
 
-### 🏠 [Homepage](https://github.com/angolo40/mikrocata2selks)
-
-### ✨ [Demo](https://github.com/angolo40/mikrocata2selks)
-
 ## Install
 
 ```sh
@@ -27,7 +23,7 @@
 ## Usage
 
 ```sh
-download this git repo and edit easyinstall.sh
+download this git repo and edit easyinstall.sh with your parameters
 ```
 
 ## Author
