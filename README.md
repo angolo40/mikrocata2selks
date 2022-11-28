@@ -18,6 +18,7 @@
 
 - Download this git repo 
 - Edit easyinstall.sh with your parameters
+- Edit microcata.py with your parameters
 - Remember to enable packet sniffer on Mikrotik
 
 ## Author
