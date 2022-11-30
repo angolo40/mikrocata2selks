@@ -20,6 +20,7 @@
 - Edit easyinstall.sh with your parameters
 - Edit microcata.py with your parameters
 - Remember to enable packet sniffer on Mikrotik
+- Enable blocking rule on Mikrotik
 
 ## Author
 
@@ -27,6 +28,7 @@
 
 * Website: https://github.com/angolo40/mikrocata2selks
 * Github: [@angolo40](https://github.com/angolo40)
+* Inspired by https://github.com/zzbe/mikrocata
 
 ## 🤝 Contributing
 
