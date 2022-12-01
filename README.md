@@ -17,6 +17,7 @@ It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 - Download SELKS repo
 - Download mikrocata repo
 - Install TZSP interface
+- Notification over Telegram when IP is blocked
 
 ## Install
 
