@@ -9,13 +9,13 @@
 > Script for auto-install Selks and mikrocata on Debian 11
 ## Introduction
 This repo intend to semplify installation of IDS/IPS Suricata for packet analyzing analyzing coming from Mikrotik.
-It uses latest docker repo from SELKS (Suricata, ELK Stack) and microcata.
+It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 
 ## Function
 - Install Docker and Docker compose
 - Install Python
 - Download SELKS repo
-- Download microcata repo
+- Download mikrocata repo
 - Install TZSP interface
 
 ## Install
