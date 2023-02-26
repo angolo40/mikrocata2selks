@@ -79,10 +79,12 @@ then
     ./easy-setup.sh --non-interactive -i tzsp0 --iA --restart-mode always --es-memory 6G
     cp $PATH_GIT_MIKROCATA/mikrocata2selks.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
     docker-compose up -d
-    echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
+    sleep 15
+    if "$( docker container inspect -f '{{.State.Running}}' suricata )" == "true"
+    then
+        echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
+    fi
     docker restart suricata
-
-
 fi
 
 echo "--- INSTALL COMPLETED ---"
