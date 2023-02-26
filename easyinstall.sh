@@ -62,6 +62,7 @@ then
     echo "--- Installing Mikrocata and his service ---"
     cp $PATH_GIT_MIKROCATA/mikrocata.py /usr/local/bin/
     chmod +x /usr/local/bin/mikrocata.py
+    mkdir -p /var/lib/mikrocata
     touch /var/lib/mikrocata/savelists.json
     touch /var/lib/mikrocata/uptime.bookmark
     touch /var/lib/mikrocata/ignore.conf
