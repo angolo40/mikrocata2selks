@@ -83,13 +83,13 @@ then
     if "$( docker container inspect -f '{{.State.Running}}' suricata )" == "true"
     then
         echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
+        docker restart suricata
     fi
-    docker restart suricata
 fi
 
 echo "--- INSTALL COMPLETED ---"
 echo "--- "
 echo "--- "
 echo "--- Edit '/usr/local/bin/mikrocata.py' with your info and then reload service with 'systemctl restart mikrocata.service'"
-echo "--- Remember to confiure Mikrotik"
+echo "--- Remember to configure Mikrotik"
 echo "--- "
