@@ -1,20 +1,24 @@
 #!/bin/bash
 
-# Edit these settings:
+### START EDIT SETTINGS
 
-PATH_SELKS=/home/user/SELKS/
-PATH_GIT_MIKROCATA=/home/user/mikrocata2selks
+# Path where to install SELKS files
+PATH_SELKS=$HOME/SELKS
 
 # SETUP CONFIG SCRIPT
 INSTALL_DUMMY_INTERFACE=true
 INSTALL_MIKROCATA_SERVICE=true
 INSTALL_SELKS=true
 
+### END EDIT SETTINGS
+
 echo "--- Install required package ---"
 
 apt-get install ca-certificates curl wget unzip  gnupg  lsb-release build-essential python3-pip git htop libpcap-dev -y
 pip3 install pyinotify ujson requests librouteros
 
+PATH_GIT_MIKROCATA=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+sed -i '/SELKS_CONTAINER_DATA_SURICATA_LOG=/c\SELKS_CONTAINER_DATA_SURICATA_LOG='$PATH_SELKS'/docker/containers-data/suricata/logs/' "$PATH_GIT_MIKROCATA/mikrocata.py"
 
 docker -v
 if [ $? -eq 128 ]; then
@@ -89,7 +93,7 @@ then
 fi
 
 
-echo "--- INSTALLER COMPLETED ---"
+echo "--- INSTALL COMPLETED ---"
 echo "--- "
 echo "--- "
 echo "--- Edit '/usr/local/bin/mikrocata.py' with your info and then reload service with 'systemctl restart mikrocata.service'"

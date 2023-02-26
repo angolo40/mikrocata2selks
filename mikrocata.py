@@ -25,27 +25,33 @@ from librouteros.query import Key
 import requests
 
 # ------------------------------------------------------------------------------
-# Edit these settings:
+################# START EDIT SETTINGS
 
-SELKS_CONTAINER_DATA_SURICATA_LOG="/home/user/SELKS/docker/containers-data/suricata/logs/"
-
+#Set Mikrotik login information
 USERNAME = "mikrocata2selks"
 PASSWORD = "password"
 ROUTER_IP = "192.168.0.1"
 TIMEOUT = "1d"
 PORT = 8729  # api-ssl port
-FILEPATH = os.path.abspath(SELKS_CONTAINER_DATA_SURICATA_LOG + "alerts.json")
 BLOCK_LIST_NAME = "Suricata"
+
+#Set Telegram information
+enable_telegram = False
 TELEGRAM_TOKEN = "TOKEN"
 TELEGRAM_CHATID = "CHATID"
-enable_telegram = False
 
-# You can add your WAN IP, so it doesn't get mistakenly blocked.
-# (don't leave empty string)
+# You can add your WAN IP, so it doesn't get mistakenly blocked (don't leave empty string)
 WAN_IP = "yourpublicip"
 LOCAL_IP_PREFIX = "192.168."
 WHITELIST_IPS = (WAN_IP, LOCAL_IP_PREFIX, "127.0.0.1", "1.1.1.1", "8.8.8.8")
 COMMENT_TIME_FORMAT = "%-d %b %Y %H:%M:%S.%f"  # See datetime strftime formats.
+
+################# END EDIT SETTINGS
+# ------------------------------------------------------------------------------
+
+# Suricata log file
+SELKS_CONTAINER_DATA_SURICATA_LOG=
+FILEPATH = os.path.abspath(SELKS_CONTAINER_DATA_SURICATA_LOG + "alerts.json")
 
 # Save Mikrotik address lists to a file and reload them on Mikrotik reboot.
 # You can add additional list(s), e.g. [BLOCK_LIST_NAME, "blocklist1", "list2"]
@@ -66,7 +72,6 @@ IGNORE_LIST_LOCATION = os.path.abspath("/var/lib/mikrocata/ignore.conf")
 # Just for testing purposes, i.e. not good for systemd service.
 ADD_ON_START = False
 
-# ------------------------------------------------------------------------------
 # global vars
 last_pos = 0
 api = None

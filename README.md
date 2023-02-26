@@ -12,10 +12,10 @@ This repo intend to semplify installation of IDS/IPS Suricata for packet analyzi
 It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 
 ## Function
-- Install Docker and Docker compose
+- Install Docker and Docker Compose
 - Install Python
-- Download SELKS repo
-- Download mikrocata repo
+- Download and install SELKS repo --> https://github.com/StamusNetworks/SELKS
+- Download and install mikrocata repo
 - Install TZSP interface
 - Notification over Telegram when IP is blocked
 
@@ -27,10 +27,13 @@ It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 
 ## Usage
 
-- Download this git repo 
-- Edit easyinstall.sh with your parameters
-- Edit microcata.py with your parameters
-- Remember to enable packet sniffer on Mikrotik
+- Setup a fresh Debian 11 install on a dedicated machine (or server or vm)
+- Login as root
+- Download this git repo
+- Edit easyinstall.sh with path where to install SELKS
+- Run ./easyinstall.sh
+- Once finished edit /usr/local/bin/mikrocata.py with your Mikrotik and Telegram parameters and then reload service with 'systemctl restart mikrocata.service'
+- Remember to enable packet sniffer on Mikrotik 
 - Enable blocking rule on Mikrotik
 
 ## Author
