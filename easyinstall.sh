@@ -47,31 +47,24 @@ then
     make install
 
     echo "--- Creating interface ---"
-
     cp $PATH_GIT_MIKROCATA/tzsp.netdev /etc/systemd/network/
     cp $PATH_GIT_MIKROCATA/tzsp.network /etc/systemd/network/
-
-    echo "--- Enable interface ---"
-
     systemctl enable systemd-networkd
     systemctl restart systemd-networkd
 
-
     echo "--- Create service for interface dummy ---"
-
     cp $PATH_GIT_MIKROCATA/TZSPreplay@.service /etc/systemd/system/
     systemctl enable --now TZSPreplay@tzsp0.service
-
 fi
-
 
 if $INSTALL_MIKROCATA_SERVICE
 then
     echo "--- Installing Mikrocata and his service ---"
-
     cp $PATH_GIT_MIKROCATA/mikrocata.py /usr/local/bin/
     chmod +x /usr/local/bin/mikrocata.py
-
+    touch /var/lib/mikrocata/savelists.json
+    touch /var/lib/mikrocata/uptime.bookmark
+    touch /var/lib/mikrocata/ignore.conf
     cp $PATH_GIT_MIKROCATA/mikrocata.service /etc/systemd/system/
     systemctl enable --now mikrocata.service
 fi
@@ -81,21 +74,19 @@ then
     echo "--- Start SELKS Installer ---"
 
     git clone https://github.com/StamusNetworks/SELKS.git $PATH_SELKS
-
     cd $PATH_SELKS/docker/
     ./easy-setup.sh --non-interactive -i tzsp0 --iA --restart-mode always --es-memory 6G
-
     cp $PATH_GIT_MIKROCATA/mikrocata2selks.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
-    echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
-
-#    docker-compose down
     docker-compose up -d
-fi
+    echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
+    docker restart suricata
 
+
+fi
 
 echo "--- INSTALL COMPLETED ---"
 echo "--- "
 echo "--- "
 echo "--- Edit '/usr/local/bin/mikrocata.py' with your info and then reload service with 'systemctl restart mikrocata.service'"
-echo "--- Remember to enable packetsniffer on Mikrotik to machine ip"
+echo "--- Remember to confiure Mikrotik"
 echo "--- "

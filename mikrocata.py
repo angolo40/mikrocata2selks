@@ -1,16 +1,5 @@
 #!/usr/bin/env python3
 
-#
-# Script for adding alerts from Suricata to Mikrotik routers.
-#
-# In suricata.yaml add another eve-log:
-#  - eve-log:
-#      enabled: yes
-#      filetype: regular
-#      filename: alerts.json
-#      types:
-#        - alert
-
 import ssl
 import os
 import socket

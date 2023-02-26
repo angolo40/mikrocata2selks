@@ -11,13 +11,13 @@
 This repo intend to semplify installation of IDS/IPS Suricata for packet analyzing analyzing coming from Mikrotik.
 It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 
-## Function
+## Functions
 - Install Docker and Docker Compose
 - Install Python
-- Download and install SELKS repo --> https://github.com/StamusNetworks/SELKS
-- Download and install mikrocata repo
+- Download and install SELKS repo (https://github.com/StamusNetworks/SELKS)
+- Download and install Mikrocata
 - Install TZSP interface
-- Notification over Telegram when IP is blocked
+- Notification over Telegram when ip is blocked
 
 ## Install
 
@@ -27,14 +27,25 @@ It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 
 ## Usage
 
-- Setup a fresh Debian 11 install on a dedicated machine (or server or vm)
+- Setup a fresh Debian 11 install on a dedicated machine (server or vm)
 - Login as root
 - Download this git repo
 - Edit easyinstall.sh with path where to install SELKS
 - Run ./easyinstall.sh
 - Once finished edit /usr/local/bin/mikrocata.py with your Mikrotik and Telegram parameters and then reload service with 'systemctl restart mikrocata.service'
-- Remember to enable packet sniffer on Mikrotik 
-- Enable blocking rule on Mikrotik
+- Configure Mikrotik
+
+## Mikrotik setup
+
+- /tool sniffer set filter-stream=yes streaming-enabled=yes streaming-server=xxx.xxx.xxx.xxx (xxx.xxx.xxx.xxx is your Debian ip addr)
+- /tool sniffer start
+
+- /ip/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_in_bad_traffic" src-address-list=Suricata
+- /ip/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_out_bad_traffic" dst-address-list=Suricata
+
+Enabling Mikrotik API
+
+- /ip service set api-ssl address=xxx.xxx.xxx.xxx enabled=yes (xxx.xxx.xxx.xxx is your Debian ip addr)
 
 ## Author
 
