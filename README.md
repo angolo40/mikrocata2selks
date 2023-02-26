@@ -11,6 +11,12 @@
 This repo intend to semplify installation of IDS/IPS Suricata for packet analyzing analyzing coming from Mikrotik.
 It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 
+Minimum working setup:
+
+- 2 cores
+- 10 GB of free RAM
+- minimum 10 GB of free disk space (actual disk occupation will mainly depend of the number of rules and the amount of traffic on the network). 200GB+ SSD grade is recommended.
+
 ## Functions
 - Install Docker and Docker Compose
 - Install Python
@@ -46,6 +52,10 @@ It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 Enabling Mikrotik API
 
 - /ip service set api-ssl address=xxx.xxx.xxx.xxx enabled=yes (xxx.xxx.xxx.xxx is your Debian ip addr)
+
+Add Mikrotik User
+
+-  /user/add name=mikrocata2selks password=xxxxxxxxxxxxx group=full (change password)
 
 ## Author
 
