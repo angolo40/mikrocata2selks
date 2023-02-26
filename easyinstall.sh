@@ -18,7 +18,7 @@ apt-get install ca-certificates curl wget unzip  gnupg  lsb-release build-essent
 pip3 install pyinotify ujson requests librouteros
 
 PATH_GIT_MIKROCATA=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-sed -i '/SELKS_CONTAINER_DATA_SURICATA_LOG=/c\SELKS_CONTAINER_DATA_SURICATA_LOG="'$PATH_SELKS'/docker/containers-data/suricata/logs/'" "$PATH_GIT_MIKROCATA/mikrocata.py"
+sed -i '/SELKS_CONTAINER_DATA_SURICATA_LOG=/c\SELKS_CONTAINER_DATA_SURICATA_LOG="'$PATH_SELKS'/docker/containers-data/suricata/logs/"' "$PATH_GIT_MIKROCATA/mikrocata.py"
 
 docker -v
 if [ $? -eq 128 ]; then
