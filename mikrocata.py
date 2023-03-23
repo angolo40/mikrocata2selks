@@ -35,6 +35,9 @@ LOCAL_IP_PREFIX = "192.168."
 WHITELIST_IPS = (WAN_IP, LOCAL_IP_PREFIX, "127.0.0.1", "1.1.1.1", "8.8.8.8")
 COMMENT_TIME_FORMAT = "%-d %b %Y %H:%M:%S.%f"  # See datetime strftime formats.
 
+#Set comma separated value of suricata alerts severity which will be blocked in Mikrotik. All severity values are ("1","2","3")
+SEVERITY=("1","2") 
+
 ################# END EDIT SETTINGS
 # ------------------------------------------------------------------------------
 
@@ -127,8 +130,13 @@ def add_to_tik(alerts):
 
     address_list = api.path("/ip/firewall/address-list")
     resources = api.path("system/resource")
+
     # Remove duplicate src_ips.
     for event in {item['src_ip']: item for item in alerts}.values():
+
+        if str(event["alert"]["severity"]) not in SEVERITY:
+            break
+
         if not in_ignore_list(ignore_list, event):
             timestamp = dt.strptime(event["timestamp"],
                                     "%Y-%m-%dT%H:%M:%S.%f%z").strftime(

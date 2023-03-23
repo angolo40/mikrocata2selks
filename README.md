@@ -71,7 +71,8 @@ Add Mikrotik User
 ## Show your support
 
 - Give a ⭐️ if this project helped you!
-
+- BTC: bc1qga68pwf49sfhdd9nj96m8e2s65ypjegtx8lafj
+- BNB: 0x720b2b3e4436ec7064d54598BAd113e5293fF691
 ***
 
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

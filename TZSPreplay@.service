@@ -12,4 +12,4 @@ ProtectSystem=full
 ProtectHome=true
 
 [Install]
-WantedBy=multi-user.target' > /etc/systemd/system/TZSPreplay@.service
+WantedBy=multi-user.target
