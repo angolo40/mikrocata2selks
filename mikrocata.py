@@ -39,7 +39,7 @@ COMMENT_TIME_FORMAT = "%-d %b %Y %H:%M:%S.%f"  # See datetime strftime formats.
 # ------------------------------------------------------------------------------
 
 # Suricata log file
-SELKS_CONTAINER_DATA_SURICATA_LOG=
+SELKS_CONTAINER_DATA_SURICATA_LOG="/root/SELKS/docker/containers-data/suricata/logs/"
 FILEPATH = os.path.abspath(SELKS_CONTAINER_DATA_SURICATA_LOG + "alerts.json")
 
 # Save Mikrotik address lists to a file and reload them on Mikrotik reboot.
@@ -139,9 +139,11 @@ def add_to_tik(alerts):
                     continue
 
                 wanted_ip, wanted_port = event["dest_ip"], event.get("src_port")
+                src_ip, src_port = event["src_ip"], event.get("dest_port")
 
             else:
                 wanted_ip, wanted_port = event["src_ip"], event.get("dest_port")
+                src_ip, src_port = event["dest_ip"], event.get("src_port")
 
             try:
                 cmnt=f"""[{event['alert']['gid']}:{
@@ -157,7 +159,7 @@ def add_to_tik(alerts):
                                  timeout=TIMEOUT)
 
                 if enable_telegram == True:
-                    print(requests.get(sendTelegram("IP: " + wanted_ip + "\nRule: " + cmnt)).json())
+                    print(requests.get(sendTelegram("From: " + wanted_ip + "\nTo: " + src_ip + ":" + wanted_port + "\nRule: " + cmnt)).json())
 
 
             except librouteros.exceptions.TrapError as e:
