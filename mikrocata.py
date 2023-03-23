@@ -36,13 +36,13 @@ WHITELIST_IPS = (WAN_IP, LOCAL_IP_PREFIX, "127.0.0.1", "1.1.1.1", "8.8.8.8")
 COMMENT_TIME_FORMAT = "%-d %b %Y %H:%M:%S.%f"  # See datetime strftime formats.
 
 #Set comma separated value of suricata alerts severity which will be blocked in Mikrotik. All severity values are ("1","2","3")
-SEVERITY=("1","2") 
+SEVERITY=("1","2")
 
 ################# END EDIT SETTINGS
 # ------------------------------------------------------------------------------
 
 # Suricata log file
-SELKS_CONTAINER_DATA_SURICATA_LOG="/root/SELKS/docker/containers-data/suricata/logs/"
+SELKS_CONTAINER_DATA_SURICATA_LOG=
 FILEPATH = os.path.abspath(SELKS_CONTAINER_DATA_SURICATA_LOG + "alerts.json")
 
 # Save Mikrotik address lists to a file and reload them on Mikrotik reboot.
