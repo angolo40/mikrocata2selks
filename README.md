@@ -13,7 +13,7 @@ It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
 
 Minimum working setup:
 
-- 2 cores
+- 4 cores
 - 10 GB of free RAM
 - minimum 10 GB of free disk space (actual disk occupation will mainly depend of the number of rules and the amount of traffic on the network). 200GB+ SSD grade is recommended.
 
@@ -35,15 +35,31 @@ Minimum working setup:
 
 - Setup a fresh Debian 11 install on a dedicated machine (server or vm)
 - Login as root
+- Install git with 'apt install git'
 - Download this git repo
-- Edit easyinstall.sh with path where to install SELKS
+- Edit easyinstall.sh with path where to install SELKS and how many Mikrotik to handle
 - Run ./easyinstall.sh
-- Once finished edit /usr/local/bin/mikrocata.py with your Mikrotik and Telegram parameters and then reload service with 'systemctl restart mikrocata.service'
+- Once finished edit /usr/local/bin/mikrocataTZSP0.py with your Mikrotik and Telegram parameters and then reload service with 'systemctl restart mikrocataTZSP0.service'
 - Configure Mikrotik
+
+## Handle multiple Mikrotik
+
+- Setting more than 1 Mikrotik it will create for each device a dedicated dummy interface and dedicated mikrocata service.
+- Example:
+- - for Mikrotik0 will create tzsp0 interface listening at 37008 port and /usr/local/bin/mikrocataTZSP0.py
+- - for Mikrotik1 will create tzsp1 interface listening at 37009 port and /usr/local/bin/mikrocataTZSP1.py
+- - for Mikrotik2 will create tzsp2 interface listening at 37010 port and /usr/local/bin/mikrocataTZSP2.py
+- - and so on...
+- - So you have to edit:
+- - /usr/local/bin/mikrocataTZSP0.py with specific Mikrotik0 value and enable sniffer on Mikrotik0 sending data to 37008 port.
+- - /usr/local/bin/mikrocataTZSP1.py with specific Mikrotik1 value and enable sniffer on Mikrotik1 sending data to 37009 port
+- - /usr/local/bin/mikrocataTZSP2.py with specific Mikrotik2 value and enable sniffer on Mikrotik3 sending data to 37010 port.
+- - and so on...
+
 
 ## Mikrotik setup
 
-- /tool sniffer set filter-stream=yes streaming-enabled=yes streaming-server=xxx.xxx.xxx.xxx (xxx.xxx.xxx.xxx is your Debian ip addr)
+- /tool sniffer set filter-stream=yes streaming-enabled=yes streaming-server=xxx.xxx.xxx.xxx:37008 (xxx.xxx.xxx.xxx is your Debian ip addr, 37008 is default port for Mikrotik0)
 - /tool sniffer start
 
 - /ip/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_in_bad_traffic" src-address-list=Suricata
