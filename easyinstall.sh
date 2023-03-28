@@ -121,6 +121,7 @@ then
 #        sed -i "s/alerts/$cmd/g" $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/mikrocata2selks.yaml
 #        cp $PATH_GIT_MIKROCATA/suricata.yaml $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/
 #        echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/suricata.yaml
+        cp $PATH_GIT_MIKROCATA/mikrocata2selks.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
         cp $PATH_GIT_MIKROCATA/suricata.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
         echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
         cmd2="$cmd2 -i tzsp$num"
