@@ -24,13 +24,13 @@ sed -i '/SELKS_CONTAINER_DATA_SURICATA_LOG=/c\SELKS_CONTAINER_DATA_SURICATA_LOG=
 
 HOW_MANY_MIKROTIK=$(( $HOW_MANY_MIKROTIK - 1 ))
 
-#docker -v
-#if [ $? -eq 128 ]; then
-#    echo "--- Installing docker ---"
-#    curl -fsSL https://get.docker.com/ | sh
-#else
-#    echo "--- Docker already installed ---"
-#fi
+docker -v
+if [ $? -eq 128 ]; then
+    echo "--- Installing docker ---"
+    curl -fsSL https://get.docker.com/ | sh
+else
+    echo "--- Docker already installed ---"
+fi
 
 if $INSTALL_DUMMY_INTERFACE
 then
