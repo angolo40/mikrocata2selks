@@ -115,12 +115,6 @@ then
     cmd2=""
     while [ $num -le $HOW_MANY_MIKROTIK ]
     do
-#        mkdir -p $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc
-#        cp $PATH_GIT_MIKROCATA/mikrocata2selks.yaml $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/
-#        cmd="alerts-tzsp$num"
-#        sed -i "s/alerts/$cmd/g" $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/mikrocata2selks.yaml
-#        cp $PATH_GIT_MIKROCATA/suricata.yaml $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/
-#        echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/suricata.yaml
         cp $PATH_GIT_MIKROCATA/mikrocata2selks.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
         cp $PATH_GIT_MIKROCATA/suricata.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
         echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
