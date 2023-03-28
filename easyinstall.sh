@@ -75,7 +75,6 @@ then
         cmd="tzsp2pcap -p $port"
         sed -i "s/tzsp2pcap/$cmd/g" /etc/systemd/system/TZSPreplay$port@.service
         systemctl enable --now TZSPreplay$port@tzsp$num.service
-        echo $num
         num=$(( $num + 1 ))
         port=$(( $port + 1 ))
     done
@@ -116,12 +115,12 @@ then
     cmd2=""
     while [ $num -le $HOW_MANY_MIKROTIK ]
     do
-        mkdir -p $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc
-        cp $PATH_GIT_MIKROCATA/mikrocata2selks.yaml $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/
-        cmd="alerts-tzsp$num"
-        sed -i "s/alerts/$cmd/g" $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/mikrocata2selks.yaml
-        cp $PATH_GIT_MIKROCATA/suricata.yaml $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/
-        echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/suricata.yaml
+#        mkdir -p $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc
+#        cp $PATH_GIT_MIKROCATA/mikrocata2selks.yaml $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/
+#        cmd="alerts-tzsp$num"
+#        sed -i "s/alerts/$cmd/g" $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/mikrocata2selks.yaml
+#        cp $PATH_GIT_MIKROCATA/suricata.yaml $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/
+#        echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata-tzsp$num/etc/suricata.yaml
         cp $PATH_GIT_MIKROCATA/suricata.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
         echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
         cmd2="$cmd2 -i tzsp$num"
@@ -137,10 +136,22 @@ fi
 echo "--- INSTALL COMPLETED ---"
 echo "--- "
 echo "--- "
+    port=37008
+    num=0
     while [ $num -le $HOW_MANY_MIKROTIK ]
     do
-        echo "--- Edit '/usr/local/bin/mikrocataTZSP$num.py' with your info and then reload service with 'systemctl restart mikrocatamikrocataTZSP$num.service'"
+        echo "--- MIKROTIK $num"
+        echo "--- Port: $port "
+        echo "--- Local Interface: tzsp$num"
+        echo "--- SERVICEs:"
+        echo "--- --- ----: Mikrocata:"
+        echo "--- --- --- --- --- ---: Edit '/usr/local/bin/mikrocataTZSP$num.py' with your info and then reload service --> 'systemctl restart mikrocatamikrocataTZSP$num.service'"
+        echo "--- --- --- : Interface: TZSPreplay$port@tzsp$num.service  --> 'systemctl status TZSPreplay$port@tzsp$num.service'"
+        echo "--- "
+        num=$(( $num + 1 ))
+        port=$(( $port + 1 ))
     done
-
+echo "--- "
+echo "--- "
 echo "--- Remember to configure Mikrotik"
 echo "--- "
