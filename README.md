@@ -46,15 +46,15 @@ Minimum working setup:
 
 - Setting more than 1 Mikrotik it will create for each device a dedicated dummy interface and dedicated mikrocata service.
 - Example:
--- for Mikrotik0 will create tzsp0 interface listening at 37008 port and /usr/local/bin/mikrocataTZSP0.py
--- for Mikrotik1 will create tzsp1 interface listening at 37009 port and /usr/local/bin/mikrocataTZSP1.py
--- for Mikrotik2 will create tzsp2 interface listening at 37010 port and /usr/local/bin/mikrocataTZSP2.py
--- and so on...
--- So you have to edit:
--- /usr/local/bin/mikrocataTZSP0.py with specific Mikrotik0 value and enable sniffer on Mikrotik0 sending data to 37008 port.
--- /usr/local/bin/mikrocataTZSP1.py with specific Mikrotik1 value and enable sniffer on Mikrotik1 sending data to 37009 port
--- /usr/local/bin/mikrocataTZSP2.py with specific Mikrotik2 value and enable sniffer on Mikrotik2 sending data to 37010 port.
--- and so on...
+- - for Mikrotik0 will create tzsp0 interface listening at 37008 port and /usr/local/bin/mikrocataTZSP0.py
+- - for Mikrotik1 will create tzsp1 interface listening at 37009 port and /usr/local/bin/mikrocataTZSP1.py
+- - for Mikrotik2 will create tzsp2 interface listening at 37010 port and /usr/local/bin/mikrocataTZSP2.py
+- - and so on...
+- - So you have to edit:
+- - /usr/local/bin/mikrocataTZSP0.py with specific Mikrotik0 value and enable sniffer on Mikrotik0 sending data to 37008 port.
+- - /usr/local/bin/mikrocataTZSP1.py with specific Mikrotik1 value and enable sniffer on Mikrotik1 sending data to 37009 port
+- - /usr/local/bin/mikrocataTZSP2.py with specific Mikrotik2 value and enable sniffer on Mikrotik2 sending data to 37010 port.
+- - and so on...
 
 
 ## Mikrotik setup
