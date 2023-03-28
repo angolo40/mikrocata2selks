@@ -127,7 +127,6 @@ then
         cmd2="$cmd2 -i tzsp$num"
         num=$(( $num + 1 ))
     done
-    echo "$cmd2"
 
     ./easy-setup.sh --non-interactive $cmd2 --iA --restart-mode always --es-memory 6G
     docker-compose up -d
