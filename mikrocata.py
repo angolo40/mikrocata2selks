@@ -16,8 +16,6 @@ import requests
 # ------------------------------------------------------------------------------
 ################# START EDIT SETTINGS
 
-LISTEN_INTERFACE=("tzsp0")
-
 #Set Mikrotik login information
 USERNAME = "mikrocata2selks"
 PASSWORD = "password"
@@ -42,6 +40,7 @@ SEVERITY=("1","2")
 
 ################# END EDIT SETTINGS
 # ------------------------------------------------------------------------------
+LISTEN_INTERFACE=("tzsp0")
 
 # Suricata log file
 SELKS_CONTAINER_DATA_SURICATA_LOG="/root/SELKS/docker/containers-data/suricata/logs/"
