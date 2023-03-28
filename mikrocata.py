@@ -136,7 +136,7 @@ def add_to_tik(alerts):
     # Remove duplicate src_ips.
     for event in {item['src_ip']: item for item in alerts}.values():
 
-       if str(event["alert"]["severity"]) not in SEVERITY:
+        if str(event["alert"]["severity"]) not in SEVERITY:
             print("pass severity: " + str(event["alert"]["severity"]))
             break
 
