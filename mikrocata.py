@@ -16,6 +16,8 @@ import requests
 # ------------------------------------------------------------------------------
 ################# START EDIT SETTINGS
 
+LISTEN_INTERFACE=("tzsp0")
+
 #Set Mikrotik login information
 USERNAME = "mikrocata2selks"
 PASSWORD = "password"
@@ -42,7 +44,7 @@ SEVERITY=("1","2")
 # ------------------------------------------------------------------------------
 
 # Suricata log file
-SELKS_CONTAINER_DATA_SURICATA_LOG=
+SELKS_CONTAINER_DATA_SURICATA_LOG="/root/SELKS/docker/containers-data/suricata/logs/"
 FILEPATH = os.path.abspath(SELKS_CONTAINER_DATA_SURICATA_LOG + "alerts.json")
 
 # Save Mikrotik address lists to a file and reload them on Mikrotik reboot.
@@ -50,13 +52,13 @@ FILEPATH = os.path.abspath(SELKS_CONTAINER_DATA_SURICATA_LOG + "alerts.json")
 SAVE_LISTS = [BLOCK_LIST_NAME]
 
 # (!) Make sure you have privileges (!)
-SAVE_LISTS_LOCATION = os.path.abspath("/var/lib/mikrocata/savelists.json")
+SAVE_LISTS_LOCATION = os.path.abspath("/var/lib/mikrocata/savelists-tzsp0.json")
 
 # Location for Mikrotik's uptime. (needed for re-adding lists after reboot)
-UPTIME_BOOKMARK = os.path.abspath("/var/lib/mikrocata/uptime.bookmark")
+UPTIME_BOOKMARK = os.path.abspath("/var/lib/mikrocata/uptime-tzsp0.bookmark")
 
 # Ignored rules file location - check ignore.conf for syntax.
-IGNORE_LIST_LOCATION = os.path.abspath("/var/lib/mikrocata/ignore.conf")
+IGNORE_LIST_LOCATION = os.path.abspath("/var/lib/mikrocata/ignore-tzsp0.conf")
 
 # Add all alerts from alerts.json on start?
 # Setting this to True will start reading alerts.json from beginning
@@ -134,7 +136,11 @@ def add_to_tik(alerts):
     # Remove duplicate src_ips.
     for event in {item['src_ip']: item for item in alerts}.values():
 
-        if str(event["alert"]["severity"]) not in SEVERITY:
+       if str(event["alert"]["severity"]) not in SEVERITY:
+            print("pass severity: " + str(event["alert"]["severity"]))
+            break
+
+        if str(event["in_iface"]) not in LISTEN_INTERFACE:
             break
 
         if not in_ignore_list(ignore_list, event):

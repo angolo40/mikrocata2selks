@@ -5,6 +5,7 @@ Requires=network-online.target
 
 [Service]
 Type=simple
+Environment="SCRIPT_ARGS=%I"
 ExecStart=/bin/sh -c "/usr/local/bin/tzsp2pcap -f | /usr/local/bin/tcpreplay-edit --topspeed --mtu=$(cat /sys/class/net/%I/mtu) --mtu-trunc -i %I -"
 Restart=always
 RestartSec=3
