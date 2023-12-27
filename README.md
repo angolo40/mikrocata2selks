@@ -17,20 +17,6 @@ Minimum working setup:
 - 10 GB of free RAM
 - minimum 10 GB of free disk space (actual disk occupation will mainly depend of the number of rules and the amount of traffic on the network). 200GB+ SSD grade is recommended.
 
-## Functions
-- Install Docker and Docker Compose
-- Install Python
-- Download and install SELKS repo (https://github.com/StamusNetworks/SELKS)
-- Download and install Mikrocata
-- Install TZSP interface
-- Notification over Telegram when ip is blocked
-
-## Install
-
-```sh
-./easyinstall.sh
-```
-
 ## Usage
 
 - Setup a fresh Debian 11 install on a dedicated machine (server or vm)
@@ -56,7 +42,6 @@ Minimum working setup:
 - - /usr/local/bin/mikrocataTZSP2.py with specific Mikrotik2 value and enable sniffer on Mikrotik2 sending data to 37010 port.
 - - and so on...
 
-
 ## Mikrotik setup
 
 - /tool sniffer set filter-stream=yes streaming-enabled=yes streaming-server=xxx.xxx.xxx.xxx:37008 (xxx.xxx.xxx.xxx is your Debian ip addr, 37008 is default port for Mikrotik0)
@@ -72,6 +57,25 @@ Enabling Mikrotik API
 Add Mikrotik User
 
 -  /user/add name=mikrocata2selks password=xxxxxxxxxxxxx group=full (change password)
+
+## Functions
+- Install Docker and Docker Compose
+- Install Python
+- Download and install SELKS repo (https://github.com/StamusNetworks/SELKS)
+- Download and install Mikrocata
+- Install TZSP interface
+- Notification over Telegram when ip is blocked
+
+## Troubleshooting
+- Check if packets are coming to VM from Mikrotik trought dummy interface
+```sh
+tcpdump -i tzsp0
+```
+- Check if microcata service on tzsp0 is up and running
+```sh
+systemctl status TZSPreplay37008@tzsp0.service
+```
+
 
 ## Author
 
