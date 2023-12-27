@@ -75,6 +75,13 @@ tcpdump -i tzsp0
 ```sh
 systemctl status TZSPreplay37008@tzsp0.service
 ```
+- Mikrocata errors:
+- - /root/SELKS/docker/containers-data/suricata/logs/alerts.json not found. Retrying in 10 seconds:
+  - check if suricata docker is running with command 'docker ps -a'
+  - check if last 2 lines of /root/SELKS/docker/containers-data/suricata/etc/suricata.yaml are:
+  - - include: selks6-addin.yaml
+  - - include: mikrocata2selks.yaml
+
 
 
 ## Author
