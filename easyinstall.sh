@@ -123,7 +123,7 @@ then
     done
 
     ./easy-setup.sh --non-interactive $cmd2 --iA --restart-mode always --es-memory 6G
-    docker-compose up -d
+    docker compose up -d
 
 fi
 
