@@ -16,7 +16,7 @@ HOW_MANY_MIKROTIK=1  #Min 1 Mikrotik
 
 echo "--- Install required package ---"
 
-apt-get install ca-certificates curl wget unzip  gnupg  lsb-release build-essential python3-pip git htop libpcap-dev -y
+apt-get install ca-certificates curl wget unzip tcpdump gnupg lsb-release build-essential python3-pip git htop libpcap-dev -y
 pip3 install pyinotify ujson requests librouteros
 
 PATH_GIT_MIKROCATA=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
