@@ -17,7 +17,7 @@ Minimum working setup:
 - 10 GB of free RAM
 - minimum 10 GB of free disk space (actual disk occupation will mainly depend of the number of rules and the amount of traffic on the network). 200GB+ SSD grade is recommended.
 
-## Usage
+## Install
 
 - Setup a fresh Debian 11 install on a dedicated machine (server or vm)
 - Login as root
@@ -67,7 +67,7 @@ Add Mikrotik User
 - Notification over Telegram when ip is blocked
 
 ## Troubleshooting
-- Check if packets are coming to VM from Mikrotik trought dummy interface
+- Check if packets are coming to VM from Mikrotik through dummy interface
 ```sh
 tcpdump -i tzsp0
 ```
