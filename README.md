@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Mikrocata2SELKS 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-2.1.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/angolo40/mikrocata2selks" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/github/license/angolo40/Mikrocata2SELKS" />
   </a>
@@ -66,22 +66,20 @@ Add Mikrotik User
 - Install TZSP interface
 - Notification over Telegram when ip is blocked
 
+## Changelog 2.1
+- now mikrotcata read alerts from default suricata eve.json instead of create a new one 
+- rewrited read_json function for better stability (thanks to bekhzad-khamidullaev)
+
 ## Troubleshooting
-- Check if packets are coming to VM from Mikrotik through dummy interface
+- Check if packets are coming to VM from mikrotik through dummy interface
 ```sh
 tcpdump -i tzsp0
 ```
-- Check if mikrocata service on tzsp0 is up and running
+- Check if mikrocata service and tzsp0 interface are up and running
 ```sh
+systemctl status mikrocataTZSP0.service
 systemctl status TZSPreplay37008@tzsp0.service
 ```
-- Common mikrocata errors:
-- - /root/SELKS/docker/containers-data/suricata/logs/alerts.json not found. Retrying in 10 seconds:
-  - check if suricata docker is running with command 'docker ps -a'
-  - check if last 2 lines of /root/SELKS/docker/containers-data/suricata/etc/suricata.yaml are:
-  - - include: selks6-addin.yaml
-  - - include: mikrocata2selks.yaml
-
 
 
 ## Author

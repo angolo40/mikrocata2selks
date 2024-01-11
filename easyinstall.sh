@@ -115,9 +115,7 @@ then
     cmd2=""
     while [ $num -le $HOW_MANY_MIKROTIK ]
     do
-        cp $PATH_GIT_MIKROCATA/mikrocata2selks.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
         cp $PATH_GIT_MIKROCATA/suricata.yaml $PATH_SELKS/docker/containers-data/suricata/etc/
-        echo "include: mikrocata2selks.yaml" >> $PATH_SELKS/docker/containers-data/suricata/etc/suricata.yaml
         cmd2="$cmd2 -i tzsp$num"
         num=$(( $num + 1 ))
     done

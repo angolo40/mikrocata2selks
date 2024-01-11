@@ -8,6 +8,7 @@ from time import sleep
 from datetime import datetime as dt
 import pyinotify
 import ujson
+import json
 import librouteros
 from librouteros import connect
 from librouteros.query import Key
@@ -44,7 +45,7 @@ LISTEN_INTERFACE=("tzsp0")
 
 # Suricata log file
 SELKS_CONTAINER_DATA_SURICATA_LOG="/root/SELKS/docker/containers-data/suricata/logs/"
-FILEPATH = os.path.abspath(SELKS_CONTAINER_DATA_SURICATA_LOG + "alerts.json")
+FILEPATH = os.path.abspath(SELKS_CONTAINER_DATA_SURICATA_LOG + "eve.json")
 
 # Save Mikrotik address lists to a file and reload them on Mikrotik reboot.
 # You can add additional list(s), e.g. [BLOCK_LIST_NAME, "blocklist1", "list2"]
@@ -106,15 +107,23 @@ def seek_to_end(fpath):
 
 def read_json(fpath):
     global last_pos
-
     while True:
         try:
             with open(fpath, "r") as f:
                 f.seek(last_pos)
-                alerts = [ujson.loads(line) for line in f.readlines()]
+                alerts = []
+                for line in f.readlines():
+                    try:
+                        alert = json.loads(line)
+                        if alert.get('event_type') == 'alert':
+                            alerts.append(json.loads(line))
+                        else:
+                            last_pos = f.tell()
+                            continue
+                    except:
+                        continue
                 last_pos = f.tell()
                 return alerts
-
         except FileNotFoundError:
             print(f"[Mikrocata] File: {fpath} not found. Retrying in 10 seconds..")
             sleep(10)
