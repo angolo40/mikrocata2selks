@@ -16,8 +16,7 @@ HOW_MANY_MIKROTIK=1  #Min 1 Mikrotik
 
 echo "--- Install required package ---"
 
-apt-get install ca-certificates curl wget unzip tcpdump gnupg lsb-release build-essential python3-pip git htop libpcap-dev -y
-pip3 install pyinotify ujson requests librouteros
+apt-get install ca-certificates curl wget unzip tcpdump gnupg lsb-release build-essential python3-pip python3-pyinotify python3-ujson python3-librouteros python3-requests git htop libpcap-dev -y
 
 PATH_GIT_MIKROCATA=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 sed -i '/SELKS_CONTAINER_DATA_SURICATA_LOG=/c\SELKS_CONTAINER_DATA_SURICATA_LOG="'$PATH_SELKS'/docker/containers-data/suricata/logs/"' "$PATH_GIT_MIKROCATA/mikrocata.py"
