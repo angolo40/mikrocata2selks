@@ -19,7 +19,7 @@ Minimum working setup:
 
 ## Install
 
-- Setup a fresh Debian 11 install on a dedicated machine (server or vm)
+- Setup a fresh Debian 12 install on a dedicated machine (server or vm)
 - Login as root
 - Install git with 'apt install git'
 - Download this git repo
