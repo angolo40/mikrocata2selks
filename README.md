@@ -6,7 +6,7 @@
   </a>
 </p>
 
-> Script for auto-install Selks and mikrocata on Debian 11
+> Script for auto-install Selks and mikrocata on Debian 12
 ## Introduction
 This repo intend to semplify installation of IDS/IPS Suricata for packet analyzing coming from Mikrotik.
 It uses latest docker repo from SELKS (Suricata, ELK Stack) and mikrocata.
@@ -66,6 +66,9 @@ Add Mikrotik User
 - Install TZSP interface
 - Notification over Telegram when ip is blocked
 
+## Changelog 2.2
+- migrated compatibility to debian 12
+
 ## Changelog 2.1
 - now mikrotcata read alerts from default suricata eve.json instead of create a new one 
 - rewrited read_json function for better stability (thanks to bekhzad-khamidullaev)
@@ -80,7 +83,14 @@ tcpdump -i tzsp0
 systemctl status mikrocataTZSP0.service
 systemctl status TZSPreplay37008@tzsp0.service
 ```
-
+- Check if suricata docker is up and running
+```sh
+docker logs -f suricata
+```
+## Notes
+- default account of SELKS:
+- - Username: selks-user
+  - Password: selks-user
 
 ## Author
 
