@@ -72,23 +72,23 @@ api = None
 ignore_list = []
 
 class EventHandler(pyinotify.ProcessEvent):
-    @classmethod
-    def process_IN_MODIFY(cls, event):
-        try:
-            add_to_tik(read_json(FILEPATH))
-        except ConnectionError:
-            connect_to_tik()
+    def process_IN_MODIFY(self, event):
+        if event.pathname == FILEPATH:
+            try:
+                add_to_tik(read_json(FILEPATH))
+            except ConnectionError:
+                connect_to_tik()
 
-        check_truncated(FILEPATH)
+    def process_IN_CREATE(self, event):
+        if event.pathname == FILEPATH:
+            print(f"[Mikrocata] New eve.json detected. Resetting last_pos.")
+            global last_pos
+            last_pos = 0
+            self.process_IN_MODIFY(event)
 
-
-# Check if logrotate truncated file. (Use 'copytruncate' option.)
-def check_truncated(fpath):
-    global last_pos
-
-    if last_pos > os.path.getsize(fpath):
-        last_pos = 0
-
+    def process_IN_DELETE(self, event):
+        if event.pathname == FILEPATH:
+            print(f"[Mikrocata] eve.json deleted. Monitoring for new file.")
 
 def seek_to_end(fpath):
     global last_pos
@@ -180,6 +180,7 @@ def add_to_tik(alerts):
                                  comment=cmnt,
                                  timeout=TIMEOUT)
 
+                print(f"[Mikrocata] new ip added: {cmnt}")
                 if enable_telegram == True:
                     print(requests.get(sendTelegram("From: " + wanted_ip + "\nTo: " + src_ip + ":" + wanted_port + "\nRule: " + cmnt)).json())
 
@@ -273,6 +274,7 @@ def connect_to_tik():
         try:
             api = connect(username=USERNAME, password=PASSWORD, host=ROUTER_IP,
                           ssl_wrapper=ctx.wrap_socket, port=PORT)
+            print(f"[Mikrocata] Connected to Mikrotik")
             break
 
         except librouteros.exceptions.TrapError as e:
@@ -306,14 +308,6 @@ def connect_to_tik():
 
             raise
 
-def sendTelegram(message):
-
-    sleep(2)
-
-    telegram_url = "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage?chat_id=" + TELEGRAM_CHATID + "&text=" + message + "&disable_web_page_preview=true&parse_mode=html"
-
-    return telegram_url
-
 def save_lists(address_list):
     _address = Key("address")
     _list = Key("list")
@@ -325,7 +319,6 @@ def save_lists(address_list):
             for row in address_list.select(_list, _address, _timeout,
                                            _comment).where(_list == save_list):
                 f.write(ujson.dumps(row) + "\n")
-
 
 def add_saved_lists(address_list):
     with open(SAVE_LISTS_LOCATION, "r") as f:
@@ -345,7 +338,6 @@ def add_saved_lists(address_list):
 
             raise
 
-
 def read_ignore_list(fpath):
     global ignore_list
 
@@ -360,7 +352,6 @@ def read_ignore_list(fpath):
 
     except FileNotFoundError:
         print(f"[Mikrocata] File: {IGNORE_LIST_LOCATION} not found. Continuing..")
-
 
 def in_ignore_list(ignr_list, event):
     for entry in ignr_list:
@@ -377,6 +368,16 @@ def in_ignore_list(ignr_list, event):
 
     return False
 
+def sendTelegram(message):
+    if enable_telegram:
+        telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage?chat_id={TELEGRAM_CHATID}&text={message}&disable_web_page_preview=true&parse_mode=html"
+        try:
+            response = requests.get(telegram_url)
+            print(response.json())
+        except Exception as e:
+            print(f"Failed to send Telegram message: {e}")
+    return telegram_url
+
 
 def main():
     seek_to_end(FILEPATH)
@@ -385,10 +386,12 @@ def main():
     os.makedirs(os.path.dirname(SAVE_LISTS_LOCATION), exist_ok=True)
     os.makedirs(os.path.dirname(UPTIME_BOOKMARK), exist_ok=True)
 
+    directory_to_monitor = os.path.dirname(FILEPATH)
+
     wm = pyinotify.WatchManager()
     handler = EventHandler()
     notifier = pyinotify.Notifier(wm, handler)
-    wm.add_watch(FILEPATH, pyinotify.IN_MODIFY)
+    wm.add_watch(directory_to_monitor, pyinotify.IN_CREATE | pyinotify.IN_MODIFY | pyinotify.IN_DELETE, rec=False)
 
     while True:
         try:
@@ -406,7 +409,6 @@ def main():
         except KeyError as e:
             print(f"[Mikrocata] (8) KeyError: {str(e)}")
             continue
-
 
 if __name__ == "__main__":
     main()
