@@ -30,7 +30,7 @@ This repository is designed to simplify the installation process for the IDS/IPS
 
 ## 📡 Mikrotik Setup
 
-- /tool sniffer set filter-stream=yes streaming-enabled=yes streaming-server=[DEBIANIP]:37008 (37008 is default port for Mikrotik0)
+- /tool sniffer set filter-stream=yes streaming-enabled=yes streaming-server=[DEBIANIP]:37008
 - /tool sniffer start
 - /ip/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_in_bad_traffic" src-address-list=Suricata
 - /ip/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_out_bad_traffic" dst-address-list=Suricata
