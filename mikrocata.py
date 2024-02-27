@@ -182,7 +182,7 @@ def add_to_tik(alerts):
 
                 print(f"[Mikrocata] new ip added: {cmnt}")
                 if enable_telegram == True:
-                    print(requests.get(sendTelegram("From: " + wanted_ip + "\nTo: " + src_ip + ":" + wanted_port + "\nRule: " + cmnt)).json())
+                    print(requests.get(sendTelegram("From: " + wanted_ip + "\nTo: " + src_ip + ":" + str(wanted_port) + "\nRule: " + cmnt)).json())
 
 
             except librouteros.exceptions.TrapError as e:
