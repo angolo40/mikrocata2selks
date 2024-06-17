@@ -23,20 +23,20 @@ This repository is designed to simplify the installation process for the IDS/IPS
 - Install git with 'apt install git'
 - Clone this git repo 'git clone https://github.com/angolo40/mikrocata2selks.git'
 - Edit easyinstall.sh with path where to install SELKS and how many Mikrotik to handle
-- Run ./easyinstall.sh
+- Run './easyinstall.sh'
 - Once finished edit /usr/local/bin/mikrocataTZSP0.py with your Mikrotik and Telegram parameters and then reload service with 'systemctl restart mikrocataTZSP0.service'
 - Configure Mikrotik
 
 
 ## 📡 Mikrotik Setup
 
-- /tool sniffer set filter-stream=yes streaming-enabled=yes streaming-server=[DEBIANIP]:37008
-- /tool sniffer start
+- /tool/sniffer/set filter-stream=yes streaming-enabled=yes streaming-server=[DEBIANIP]:37008
+- /tool/sniffer/start
 - /ip/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_in_bad_traffic" src-address-list=Suricata
 - /ip/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_out_bad_traffic" dst-address-list=Suricata
   
 Enabling Mikrotik API:
-- /ip service set api-ssl address=[DEBIANIP] enabled=yes
+- /ip/service/set api-ssl address=[DEBIANIP] enabled=yes
   
 Add Mikrocata user in Mikrotik:
 -  /user/add name=mikrocata2selks password=xxxxxxxxxxxxx group=full (change password)
@@ -100,6 +100,7 @@ docker logs -f suricata
 
 ## 📝 Notes
 - default account of SELKS:
+- - https://[DEBIANIP]
 - - Username: selks-user
   - Password: selks-user
 
@@ -119,7 +120,4 @@ Contributions, issues, and feature requests are welcome. Check the [issues page]
 ## 🌟 Show Your Support
 
 Give a ⭐️ if this project helped you!
-
-- **BTC**: `bc1qad42pe2ux24y6vek07stmr7dknrq7dzrcws4k7`
-- **BNB**: `0x5fe7087ea857b0b5e509e81cbe120c3bd7524e1f`
 - **XMR**: `87LLkcvwm7JUZAVjusKsnwNRPfhegxe73X7X3mWXDPMnTBCb6JDFnspbN8qdKZA6StHXqnJxMp3VgRK7DcS2sgnW3wH7Xhw`
