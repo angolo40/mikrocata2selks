@@ -50,14 +50,14 @@ This repository is designed to simplify the installation process for the IDS/IPS
 
 ## 🛠️ Handling Multiple Mikrotik Devices
 
-For each additional Mikrotik device, a dedicated dummy interface and mikrocata service will be created. 
+By configuring the `easyinstall.sh` file to manage more than one Mikrotik device, the setup script will automatically create dedicated dummy interfaces and corresponding Mikrocata services for each device on the Debian machine.
 
 - Example configuration:
-    - For Mikrotik0: `tzsp0` interface on port `37008` and `/usr/local/bin/mikrocataTZSP0.py`.
-    - For Mikrotik1: `tzsp1` interface on port `37009` and `/usr/local/bin/mikrocataTZSP1.py`.
-    - For Mikrotik2: `tzsp2` interface on port `37010` and `/usr/local/bin/mikrocataTZSP2.py`.
-    
-Edit each script with the specific Mikrotik values and enable the sniffer on each Mikrotik device to send data to the respective port.
+    - For Mikrotik0: Creates the `tzsp0` interface on port `37008` and the script `/usr/local/bin/mikrocataTZSP0.py`.
+    - For Mikrotik1: Creates the `tzsp1` interface on port `37009` and the script `/usr/local/bin/mikrocataTZSP1.py`.
+    - For Mikrotik2: Creates the `tzsp2` interface on port `37010` and the script `/usr/local/bin/mikrocataTZSP2.py`.
+
+You will need to edit each script with the specific Mikrotik values and enable the sniffer on each Mikrotik device to send data to the corresponding port.
 
 ## 💡 Features
 
