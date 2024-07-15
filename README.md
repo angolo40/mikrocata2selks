@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Mikrocata2SELKS 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-2.2.2-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-2.2.3-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/angolo40/mikrocata2selks" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/github/license/angolo40/Mikrocata2SELKS" />
   </a>
@@ -71,7 +71,9 @@ You will need to edit each script with the specific Mikrotik values and enable t
 - Enables notifications over Telegram when an IP is blocked.
 
 ## 🔄 Changelog
-
+### 2.2.3
+- Added IPV6Support (thanks floridan95)
+  
 ### 2.2.2
 - Fixed telegram notification issue.
 
