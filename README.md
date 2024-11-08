@@ -60,6 +60,53 @@ By configuring the `easyinstall.sh` file to manage more than one Mikrotik device
     - For Mikrotik2: Creates the `tzsp2` interface on port `37010` and the script `/usr/local/bin/mikrocataTZSP2.py`.
 
 You will need to edit each script with the specific Mikrotik values and enable the sniffer on each Mikrotik device to send data to the corresponding port.
+The system architecture for handling multiple Mikrotik devices is designed to be modular and scalable. Here's a visual representation of how the system works:
+
+```mermaid
+flowchart TD
+    subgraph Mikrotik_Devices
+        M0[Mikrotik 0\nPort: 37008]
+        M1[Mikrotik 1\nPort: 37009]
+        M2[Mikrotik 2\nPort: 37010]
+    end
+
+    subgraph Debian_Server ["Debian Server (SELKS)"]
+        subgraph Interfaces
+            I0[tzsp0 Interface\nPort: 37008]
+            I1[tzsp1 Interface\nPort: 37009]
+            I2[tzsp2 Interface\nPort: 37010]
+        end
+
+        subgraph Mikrocata_Services
+            S0[mikrocataTZSP0.py]
+            S1[mikrocataTZSP1.py]
+            S2[mikrocataTZSP2.py]
+        end
+
+        subgraph Analysis
+            suricata[Suricata IDS/IPS\nDocker Container]
+            telegram[Telegram\nNotifications]
+        end
+    end
+
+    M0 -->|TZSP Traffic| I0
+    M1 -->|TZSP Traffic| I1
+    M2 -->|TZSP Traffic| I2
+
+    I0 -->|Packet Analysis| S0
+    I1 -->|Packet Analysis| S1
+    I2 -->|Packet Analysis| S2
+
+    S0 -->|Alerts| suricata
+    S1 -->|Alerts| suricata
+    S2 -->|Alerts| suricata
+
+    suricata -->|Block Notifications| telegram
+    
+    style Debian_Server fill:#f5f5f5,stroke:#333,stroke-width:2px
+    style Mikrotik_Devices fill:#e1f5fe,stroke:#333,stroke-width:2px
+    style Analysis fill:#e8f5e9,stroke:#333,stroke-width:2px
+```
 
 ## 💡 Features
 
