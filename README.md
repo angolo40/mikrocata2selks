@@ -8,7 +8,17 @@
 
 ## 📋 Introduction
 
-This repository is designed to simplify the installation process for the IDS/IPS Suricata for packet analysis from Mikrotik devices. The script is compatible with latest SELKS 10.
+Mikrocata2SELKS is a streamlined solution for integrating Mikrotik devices with Suricata IDS/IPS for packet analysis.
+It automates the setup process and enables efficient network traffic monitoring and threat detection.
+The script is compatible with latest SELKS 10.
+
+```mermaid
+graph LR
+    A[Mikrotik Router] -->|TZSP Traffic| B[Mikrocata2SELKS]
+    B -->|Analysis| C[Suricata IDS/IPS]
+    C -->|Alerts| D[Telegram Notifications]
+    C -->|Blocks| E[Firewall Rules]
+```
 
 **Minimum Requirements:**
 - 4 CPU cores
@@ -65,16 +75,16 @@ The system architecture for handling multiple Mikrotik devices is designed to be
 ```mermaid
 flowchart TD
     subgraph Mikrotik_Devices
-        M0[Mikrotik 0\nPort: 37008]
-        M1[Mikrotik 1\nPort: 37009]
-        M2[Mikrotik 2\nPort: 37010]
+        M0[Mikrotik0 Port:37008]
+        M1[Mikrotik1 Port:37009]
+        M2[Mikrotik2 Port:37010]
     end
 
     subgraph Debian_Server ["Debian Server (SELKS)"]
         subgraph Interfaces
-            I0[tzsp0 Interface\nPort: 37008]
-            I1[tzsp1 Interface\nPort: 37009]
-            I2[tzsp2 Interface\nPort: 37010]
+            I0[Interface:tzsp0 Port:37008]
+            I1[Interface:tzsp1 Port:37009]
+            I2[Interface:tzsp2 Port:37010]
         end
 
         subgraph Mikrocata_Services
