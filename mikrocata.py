@@ -40,6 +40,11 @@ ENABLE_IPV6 = False
 #Set comma separated value of suricata alerts severity which will be blocked in Mikrotik. All severity values are ("1","2","3")
 SEVERITY=("1","2")
 
+# Allow self-signed certificates
+# WARNING: These settings bypass certificate verification and should only be used
+# with self-signed certificates in trusted environments
+ALLOW_SELF_SIGNED_CERTS = False
+
 ################# END EDIT SETTINGS
 # ------------------------------------------------------------------------------
 LISTEN_INTERFACE=("tzsp0")
@@ -276,8 +281,19 @@ def check_tik_uptime(resources):
 def connect_to_tik():
     global api
     ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.set_ciphers('ADH:@SECLEVEL=0')
+    ctx.set_ciphers('DEFAULT@SECLEVEL=1')
+    #set 2 to more secure ciphers protocol 
+    #ctx.set_ciphers('DEFAULT@SECLEVEL=2')
+    
+    if ALLOW_SELF_SIGNED_CERTS:
+        # WARNING: These settings bypass certificate verification and should only be used
+        # with self-signed certificates in trusted environments
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+    else:
+        # Default secure settings - requires valid certificates
+        ctx.check_hostname = True
+        ctx.verify_mode = ssl.CERT_REQUIRED
 
     while True:
         try:
