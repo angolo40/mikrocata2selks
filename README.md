@@ -128,6 +128,9 @@ flowchart TD
 - Enables notifications over Telegram when an IP is blocked.
 
 ## 🔄 Changelog
+### 2.2.4
+- Manage Self-Signed Certificate
+
 ### 2.2.3
 - Added IPV6Support (thanks floridan95)
   
