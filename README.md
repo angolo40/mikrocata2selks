@@ -143,7 +143,7 @@ flowchart TD
 ## 🔄 Changelog
 ### 2.2.5
 - fix certificate managment
-- 
+  
 ### 2.2.4
 - Manage Self-Signed Certificate
 
