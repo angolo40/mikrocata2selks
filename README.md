@@ -52,9 +52,22 @@ graph LR
     /ipv6/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_out_bad_traffic" dst-address-list=Suricata
     ```
 3. Enable Mikrotik API:
+   You have two options:
+   - For SSL connection (recommended):
     ```sh
     /ip/service/set api-ssl address=[DEBIANIP] enabled=yes
     ```
+   - For non-SSL connection (default settings):
+    ```sh
+    /ip/service/set api address=[DEBIANIP] enabled=yes
+    ```
+   
+   Then configure the corresponding settings in mikrocata.py:
+   ```python
+   USE_SSL = True  # Set to False for non-SSL connection
+   PORT = 8728    # Default port for non-SSL. Will use 8729 if USE_SSL is True
+   ALLOW_SELF_SIGNED_CERTS = False  # Set to True only if using self-signed certificates
+   ```
 4. Add Mikrocata user in Mikrotik:
     ```sh
     /user/add name=mikrocata2selks password=xxxxxxxxxxxxx group=full (change password)
@@ -128,6 +141,9 @@ flowchart TD
 - Enables notifications over Telegram when an IP is blocked.
 
 ## 🔄 Changelog
+### 2.2.5
+- fix certificate managment
+- 
 ### 2.2.4
 - Manage Self-Signed Certificate
 
