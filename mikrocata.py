@@ -22,7 +22,8 @@ USERNAME = "mikrocata2selks"
 PASSWORD = "password"
 ROUTER_IP = "192.168.0.1"
 TIMEOUT = "1d"
-PORT = 8729  # api-ssl port
+USE_SSL = False  # Set to True to use SSL connection
+PORT = 8728  # Default port for non-SSL connection. Will use 8729 if USE_SSL is True
 BLOCK_LIST_NAME = "Suricata"
 
 #Set Telegram information
@@ -280,27 +281,37 @@ def check_tik_uptime(resources):
 
 def connect_to_tik():
     global api
-    ctx = ssl.create_default_context()
-    ctx.set_ciphers('DEFAULT@SECLEVEL=1')
-    #set 2 to more secure ciphers protocol 
-    #ctx.set_ciphers('DEFAULT@SECLEVEL=2')
     
-    if ALLOW_SELF_SIGNED_CERTS:
-        # WARNING: These settings bypass certificate verification and should only be used
-        # with self-signed certificates in trusted environments
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-    else:
-        # Default secure settings - requires valid certificates
-        ctx.check_hostname = True
-        ctx.verify_mode = ssl.CERT_REQUIRED
-
+    # Determine which port to use
+    actual_port = 8729 if USE_SSL else 8728
+    
     while True:
         try:
-            api = connect(username=USERNAME, password=PASSWORD, host=ROUTER_IP,
-                          ssl_wrapper=ctx.wrap_socket, port=PORT)
+            if USE_SSL:
+                # SSL connection setup
+                if ALLOW_SELF_SIGNED_CERTS:
+                    # Settings for self-signed certificates
+                    ctx = ssl.create_default_context()
+                    ctx.check_hostname = False
+                    ctx.verify_mode = ssl.CERT_NONE
+                    ctx.set_ciphers('DEFAULT@SECLEVEL=0')
+                else:
+                    # Settings for valid certificates
+                    ctx = ssl.create_default_context()
+                    ctx.check_hostname = True
+                    ctx.verify_mode = ssl.CERT_REQUIRED
+                    ctx.set_ciphers('DEFAULT@SECLEVEL=2')
+
+                # Connect with SSL
+                api = connect(username=USERNAME, password=PASSWORD, host=ROUTER_IP,
+                            ssl_wrapper=ctx.wrap_socket, port=actual_port)
+            else:
+                # Plain connection without SSL
+                api = connect(username=USERNAME, password=PASSWORD, host=ROUTER_IP,
+                            port=actual_port)
             print(f"[Mikrocata] Connected to Mikrotik")
             break
+
 
         except librouteros.exceptions.TrapError as e:
             if "invalid user name or password" in str(e):
