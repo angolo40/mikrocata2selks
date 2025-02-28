@@ -6,6 +6,8 @@
   </a>
 </p>
 
+![Selks](Screenshot_20250228_142832.png)
+
 ## 📋 Introduction
 
 Mikrocata2SELKS is a streamlined solution for integrating Mikrotik devices with Suricata IDS/IPS for packet analysis.
@@ -55,11 +57,11 @@ graph LR
    You have two options:
    - For SSL connection (recommended):
     ```sh
-    /ip/service/set api-ssl address=[DEBIANIP] enabled=yes
+    /ip/service/set api-ssl address=[DEBIANIP]
     ```
    - For non-SSL connection (default settings):
     ```sh
-    /ip/service/set api address=[DEBIANIP] enabled=yes
+    /ip/service/set api address=[DEBIANIP]
     ```
    
    Then configure the corresponding settings in mikrocata.py:
