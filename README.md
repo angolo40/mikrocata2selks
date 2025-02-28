@@ -177,6 +177,8 @@ flowchart TD
     ```sh
     docker logs -f suricata
     ```
+    if suricata shows 'Fatal glibc error: CPU does not support x86-64-v2' and you are under Proxmox Ve, please set CPU processor to HOST
+
 
 ## 📝 Notes
 - Default account for SELKS:
