@@ -6,6 +6,7 @@
   </a>
 </p>
 
+
 ![Selks](Screenshot_20250228_142832.png)
 
 ## 📋 Introduction
@@ -26,6 +27,10 @@ graph LR
 - 4 CPU cores
 - 10 GB of free RAM
 - Minimum 10 GB of free disk space (actual disk usage will mainly depend on the number of rules and the amount of traffic on the network - 200GB+ SSD grade recommended).
+
+## 📚 Documentation
+For a comprehensive step-by-step installation guide with detailed explanations, screenshots, and troubleshooting tips, please visit:
+[Complete Installation Guide](https://www.sec-ttl.com/mikrocata2selks-integrating-mikrotik-with-suricata-for-network-security/)
 
 ## 🚀 Installation
 
