@@ -77,6 +77,8 @@ ADD_ON_START = False
 last_pos = 0
 api = None
 ignore_list = []
+last_save_time = 0
+SAVE_INTERVAL = 300  # Save lists every 5 minutes
 
 class EventHandler(pyinotify.ProcessEvent):
     def process_IN_MODIFY(self, event):
@@ -140,7 +142,8 @@ def read_json(fpath):
 def add_to_tik(alerts):
     global last_pos
     global api
-
+    global last_save_time
+    
     _address = Key("address")
     _id = Key(".id")
     _list = Key("list")
@@ -220,14 +223,23 @@ def add_to_tik(alerts):
                 connect_to_tik()
 
     # If router has been rebooted add saved list(s), then save lists to a file.
-    if check_tik_uptime(resources):
-        add_saved_lists(address_list)
-        if ENABLE_IPV6:
-            add_saved_lists(address_list_v6,True)
+    # Only save lists and check uptime every x minutes
+    current_time = int(dt.now().timestamp())
+    if current_time - last_save_time >= SAVE_INTERVAL:
+        last_save_time = current_time
+        
+        # Check router uptime and restore lists if needed
+        if check_tik_uptime(resources):
+            add_saved_lists(address_list)
+            if ENABLE_IPV6:
+                add_saved_lists(address_list_v6, True)
 
-    save_lists(address_list)
-    if ENABLE_IPV6:
-        save_lists(address_list_v6,True)
+        # Save current lists to file
+        save_lists(address_list)
+        if ENABLE_IPV6:
+            save_lists(address_list_v6, True)
+        
+        print("[Mikrocata] Lists saved")
 
 def check_tik_uptime(resources):
 
