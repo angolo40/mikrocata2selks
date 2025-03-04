@@ -158,7 +158,7 @@ flowchart TD
 - **Security:** Fixed SSL certificate management issues
 - **Reliability:** Improved handling of certificate validation
 
-### v2.2.4 (December 2025)
+### v2.2.4 (December 2024)
 - **Security:** Added support for self-signed certificates
 - **Configuration:** Added new option `ALLOW_SELF_SIGNED_CERTS` for trusted environments
 
