@@ -47,10 +47,20 @@ For a comprehensive step-by-step installation guide with detailed explanations, 
 ## 📡 Mikrotik Setup
 
 1. Enable sniffer:
+
+    Option 1: Start the sniffer tool (temporary until reboot)
     ```sh
     /tool/sniffer/set filter-stream=yes streaming-enabled=yes streaming-server=[YOURDEBIANIP]:37008
     /tool/sniffer/start
     ```
+
+    Option 2: Add sniffer mangle rules (permanent surviving reboot)
+    ```
+    /ip firewall mangle
+    add action=sniff-tzsp chain=prerouting comment="From Internet" in-interface=ether1 sniff-target=[YOURDEBIANIP] sniff-target-port=37008
+    add action=sniff-tzsp chain=postrouting comment="To Internet" out-interface=ether1 sniff-target=[YOURDEBIANIP] sniff-target-port=37008
+    ```
+
 2. Add firewall rules:
     ```sh
     /ip/firewall/raw/add action=drop chain=prerouting comment="IPS-drop_in_bad_traffic" src-address-list=Suricata
