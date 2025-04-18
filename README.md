@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Mikrocata2SELKS 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-2.2.6-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-2.3.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/angolo40/mikrocata2selks" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/github/license/angolo40/Mikrocata2SELKS" />
   </a>
@@ -149,37 +149,7 @@ flowchart TD
 
 ## 🔄 Changelog
 
-### v2.2.6 (March 4, 2025)
-- **Performance:** Optimized Mikrotik address list saving to run every 5 minutes instead of on every alert
-- **Stability:** Reduced router CPU load, particularly beneficial for high-traffic networks or routers with limited resources
-- **System:** Added interval-based save mechanism with configurable timing (default: 300 seconds)
-
-### v2.2.5 (January, 2025)
-- **Security:** Fixed SSL certificate management issues
-- **Reliability:** Improved handling of certificate validation
-
-### v2.2.4 (December 2024)
-- **Security:** Added support for self-signed certificates
-- **Configuration:** Added new option `ALLOW_SELF_SIGNED_CERTS` for trusted environments
-
-### v2.2.3 (July 2024)
-- **Feature:** Added IPv6 support (thanks to contributor: floridan95)
-- **Configuration:** Added `ENABLE_IPV6` option to enable/disable IPv6 blocking
-
-### v2.2.2
-- **Fix:** Resolved issue with Telegram notifications not being delivered properly
-
-### v2.2.1
-- **Bugfix:** Fixed script crash during Suricata logrotate operations
-- **Stability:** Improved file handling for log rotation events
-
-### v2.2
-- **Compatibility:** Added support for Debian 12
-- **System:** Updated installation scripts for newer package versions
-
-### v2.1
-- **Reliability:** Improved stability of the `read_json` function (thanks to contributor: bekhzad-khamidullaev)
-- **Performance:** Better handling of malformed JSON data
+- View CHANGELOG.md
 
 ## 🔧 Troubleshooting
 
