@@ -112,7 +112,7 @@ flowchart TD
         M2[Mikrotik2 Port:37010]
     end
 
-    subgraph Debian_Server ["Debian Server"]
+    subgraph Debian_Server ["Debian Server (SELKS)"]
         subgraph Interfaces
             I0[Interface:tzsp0 Port:37008]
             I1[Interface:tzsp1 Port:37009]
@@ -126,7 +126,7 @@ flowchart TD
         end
 
         subgraph Analysis
-            suricata[Suricata IDS/IPS\n(SELKS or Clean NDR)]
+            suricata[Suricata IDS/IPS\nDocker Container]
             telegram[Telegram\nNotifications]
         end
     end
