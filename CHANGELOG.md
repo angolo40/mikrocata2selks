@@ -1,3 +1,22 @@
+# Changelog - v3.0.0 (July 2025)
+
+## Key Features
+
+*   **Interactive Installer:** The `easyinstall.sh` script is now fully interactive, guiding the user through the installation process.
+*   **Choice of NDR:** Added support for installing **Clean NDR** (the evolution of SELKS) as an alternative to the classic **SELKS** installation.
+*   **Complete Uninstallation:** Implemented a full uninstallation option in the installer to remove all components, services, and files.
+
+## Technical Improvements
+
+*   Refactored `easyinstall.sh` into a modular, function-based structure.
+*   Removed hardcoded installation variables; configuration is now handled via interactive prompts.
+
+## Upgrade and Installation Instructions
+
+Due to the significant changes in the installation process, a fresh install on a new Debian 12 system is **highly recommended**.
+
+---
+
 # Changelog - v2.3.0 (April 2025)
 
 ## Key Features

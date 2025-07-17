@@ -15,7 +15,7 @@ from librouteros import connect
 from librouteros.query import Key
 import requests
 
-VERSION = "2.3.0"  # Updated April 2025
+VERSION = "3.0.0"
 
 # ------------------------------------------------------------------------------
 ################# START EDIT SETTINGS

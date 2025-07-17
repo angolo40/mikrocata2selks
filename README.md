@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Mikrocata2SELKS 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-2.3.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-3.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/angolo40/mikrocata2selks" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/github/license/angolo40/Mikrocata2SELKS" />
   </a>
@@ -11,16 +11,22 @@
 
 ## 📋 Introduction
 
-Mikrocata2SELKS is a streamlined solution for integrating Mikrotik devices with Suricata IDS/IPS for packet analysis.
+Mikrocata2SELKS is a streamlined solution for integrating Mikrotik devices with a powerful Network Detection and Response (NDR) system for packet analysis.
 It automates the setup process and enables efficient network traffic monitoring and threat detection.
-The script is compatible with latest SELKS 10.
+The script now offers a choice between two powerful open-source solutions:
+- **SELKS**: The classic, trusted open-source IDS/IPS platform.
+- **Clean NDR**: The next evolution of SELKS, offering a modernized architecture.
 
 ```mermaid
 graph LR
     A[Mikrotik Router] -->|TZSP Traffic| B[Mikrocata2SELKS]
-    B -->|Analysis| C[Suricata IDS/IPS]
-    C -->|Alerts| D[Telegram Notifications]
-    C -->|Blocks| E[Firewall Rules]
+    B -->|Analysis| C{IDS/IPS Engine}
+    C -- SELKS --> D[Suricata on ELK]
+    C -- Clean NDR --> E[Suricata on OpenSearch]
+    D --> F[Telegram Notifications]
+    E --> F
+    D --> G[Firewall Rules]
+    E --> G
 ```
 
 **Minimum Requirements:**
@@ -34,15 +40,20 @@ For a comprehensive step-by-step installation guide with detailed explanations, 
 
 ## 🚀 Installation
 
+The installation process is now fully interactive!
+
 1. Set up a fresh Debian 12 installation on a dedicated machine (server or VM).
 2. Log in as root.
 3. Install Git: `apt install git`.
 4. Clone this repository: `git clone https://github.com/angolo40/mikrocata2selks.git`.
-5. Edit `easyinstall.sh` with the path where to install SELKS and the number of Mikrotik devices to handle.
-6. Run `./easyinstall.sh`.
-7. Wait....
-8. Once finished, edit `/usr/local/bin/mikrocataTZSP0.py` with your Mikrotik and Telegram parameters, then reload the service with `systemctl restart mikrocataTZSP0.service`.
-9. Configure your Mikrotik devices.
+5. Navigate to the repository directory: `cd mikrocata2selks`.
+6. Run the interactive installer: `./easyinstall.sh`.
+7. Follow the on-screen menu:
+    - **Choose your NDR**: Select either SELKS or Clean NDR.
+    - **Configure**: The script will prompt you for necessary information, like the number of Mikrotik devices for a SELKS install.
+    - **Wait...**: The script will handle the rest.
+8. Once finished, edit the configuration file for each Mikrotik device (e.g., `/usr/local/bin/mikrocataTZSP0.py`) with your Mikrotik and Telegram parameters, then reload the service (e.g., `systemctl restart mikrocataTZSP0.service`).
+9. Configure your Mikrotik devices as described below.
 
 ## 📡 Mikrotik Setup
 
@@ -80,9 +91,9 @@ For a comprehensive step-by-step installation guide with detailed explanations, 
     /user/add name=mikrocata2selks password=xxxxxxxxxxxxx group=full (change password)
     ```
 
-## 🛠️ Handling Multiple Mikrotik Devices
+## 🛠️ Handling Multiple Mikrotik Devices (SELKS Installation)
 
-By configuring the `easyinstall.sh` file to manage more than one Mikrotik device, the setup script will automatically create dedicated dummy interfaces and corresponding Mikrocata services for each device on the Debian machine.
+When installing **SELKS**, the script will ask how many Mikrotik devices you want to manage. Based on your input, it will automatically create dedicated dummy interfaces and corresponding Mikrocata services for each device on the Debian machine.
 
 - Example configuration:
     - For Mikrotik0: Creates the `tzsp0` interface on port `37008` and the script `/usr/local/bin/mikrocataTZSP0.py`.
@@ -90,7 +101,8 @@ By configuring the `easyinstall.sh` file to manage more than one Mikrotik device
     - For Mikrotik2: Creates the `tzsp2` interface on port `37010` and the script `/usr/local/bin/mikrocataTZSP2.py`.
 
 You will need to edit each script with the specific Mikrotik values and enable the sniffer on each Mikrotik device to send data to the corresponding port.
-The system architecture for handling multiple Mikrotik devices is designed to be modular and scalable. Here's a visual representation of how the system works:
+
+**Note**: The **Clean NDR** installation currently supports only a single Mikrotik device.
 
 ```mermaid
 flowchart TD
@@ -100,7 +112,7 @@ flowchart TD
         M2[Mikrotik2 Port:37010]
     end
 
-    subgraph Debian_Server ["Debian Server (SELKS)"]
+    subgraph Debian_Server ["Debian Server"]
         subgraph Interfaces
             I0[Interface:tzsp0 Port:37008]
             I1[Interface:tzsp1 Port:37009]
@@ -114,7 +126,7 @@ flowchart TD
         end
 
         subgraph Analysis
-            suricata[Suricata IDS/IPS\nDocker Container]
+            suricata[Suricata IDS/IPS\n(SELKS or Clean NDR)]
             telegram[Telegram\nNotifications]
         end
     end
@@ -142,10 +154,13 @@ flowchart TD
 
 - Installs Docker and Docker Compose.
 - Installs Python.
-- Downloads and installs SELKS repository (https://github.com/StamusNetworks/SELKS).
+- Interactive installer with a choice between:
+    - **SELKS**: The classic open-source IDS/IPS platform.
+    - **Clean NDR**: The next-generation open-source NDR platform.
 - Downloads and installs Mikrocata.
-- Installs TZSP interface.
+- Installs TZSP interface(s).
 - Enables notifications over Telegram when an IP is blocked.
+- Includes a complete uninstallation option.
 
 ## 🔄 Changelog
 
