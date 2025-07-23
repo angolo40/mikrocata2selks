@@ -1,3 +1,10 @@
+# Changelog - v3.0.1 (July 2025)
+
+## Bug Fix
+
+*   Fixed docker install
+*   Fixed Selks install
+
 # Changelog - v3.0.0 (July 2025)
 
 ## Key Features
