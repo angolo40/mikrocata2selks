@@ -1,6 +1,5 @@
 #!/bin/bash
 # easyinstall.sh - A script to install Mikrocata for SELKS or Clean NDR
-# --- Helper Functions ---
 
 install_dependencies() {
     echo "--- Install required package ---"
@@ -13,8 +12,7 @@ install_base_components() {
 
     HOW_MANY_MIKROTIK=$(( $HOW_MANY_MIKROTIK - 1 ))
 
-    docker -v
-    if [ $? -eq 128 ]; then
+    if ! docker -v &>/dev/null; then
         echo "--- Installing docker ---"
         curl -fsSL https://get.docker.com/ | sh
     else
@@ -88,10 +86,33 @@ install_base_components() {
 
 install_selks() {
     echo "--- Start SELKS Installer ---"
-    read -e -p "Enter the installation path for SELKS: " -i "$HOME/SELKS" PATH_SELKS
+    
+    # Validate SELKS installation path
+    while true; do
+        read -e -p "Enter the installation path for SELKS: " -i "$HOME/SELKS" PATH_SELKS
+        if [[ -n "$PATH_SELKS" && "$PATH_SELKS" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
+            break
+        else
+            echo "Error: Please enter a valid path (no spaces or special characters except /, -, ., _)"
+        fi
+    done
+    
     PATH_GIT_MIKROCATA=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
     sed -i '/SELKS_CONTAINER_DATA_SURICATA_LOG=/c\SELKS_CONTAINER_DATA_SURICATA_LOG="'$PATH_SELKS'/docker/containers-data/suricata/logs/"' "$PATH_GIT_MIKROCATA/mikrocata.py"
-    read -p "How many Mikrotik devices to configure? " HOW_MANY_MIKROTIK
+    
+    # Validate MikroTik device count
+    while true; do
+        read -p "How many Mikrotik devices to configure? " HOW_MANY_MIKROTIK
+        if [[ "$HOW_MANY_MIKROTIK" =~ ^[1-9][0-9]*$ ]]; then
+            break
+        else
+            echo "Error: Please enter a valid number (1 or greater)"
+        fi
+    done
+    
+    # Save original value before it gets decremented by install_base_components
+    HOW_MANY_MIKROTIK_ORIGINAL=$HOW_MANY_MIKROTIK
+    
     install_dependencies
     install_base_components
 
@@ -100,14 +121,20 @@ install_selks() {
 
     num=0
     cmd2=""
-    HOW_MANY_MIKROTIK_LOOPS=$(( $HOW_MANY_MIKROTIK - 1 ))
+    HOW_MANY_MIKROTIK_LOOPS=$(( $HOW_MANY_MIKROTIK_ORIGINAL - 1 ))
     while [ $num -le $HOW_MANY_MIKROTIK_LOOPS ]
     do
         cmd2="$cmd2 -i tzsp$num"
         num=$(( $num + 1 ))
     done
 
-    ./easy-setup.sh --non-interactive $cmd2 --iA --restart-mode always --es-memory 6G
+    echo "--- SELKS interfaces parameter: $cmd2 ---"
+    if [ -z "$cmd2" ]; then
+        echo "ERROR: No interfaces configured. Setting default interface."
+        cmd2="-i tzsp0"
+    fi
+
+    eval "./easy-setup.sh --non-interactive $cmd2 --iA --restart-mode always --es-memory 6G"
     docker compose up -d
 
     echo "--- SELKS INSTALL COMPLETED ---"
@@ -116,7 +143,16 @@ install_selks() {
 
 install_clean_ndr() {
     echo "--- Clean NDR Installer ---"
-    read -e -p "Enter the installation path for Clean NDR: " -i "/root/NDR" PATH_NDR
+    
+    # Validate Clean NDR installation path
+    while true; do
+        read -e -p "Enter the installation path for Clean NDR: " -i "/root/NDR" PATH_NDR
+        if [[ -n "$PATH_NDR" && "$PATH_NDR" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
+            break
+        else
+            echo "Error: Please enter a valid path (no spaces or special characters except /, -, ., _)"
+        fi
+    done
     mkdir -p $PATH_NDR
     
     echo "--- DISCLAIMER: At the moment, only one Mikrotik device is supported for Clean NDR. ---"
@@ -150,11 +186,18 @@ uninstall() {
         exit 1
     fi
 
-    # Ask what to uninstall
-    echo "Which system are you uninstalling?"
-    echo "1. SELKS"
-    echo "2. Clean NDR"
-    read -p "Enter your choice [1-2]: " uninstall_choice
+    # Ask what to uninstall with validation
+    while true; do
+        echo "Which system are you uninstalling?"
+        echo "1. SELKS"
+        echo "2. Clean NDR"
+        read -p "Enter your choice [1-2]: " uninstall_choice
+        if [[ "$uninstall_choice" =~ ^[1-2]$ ]]; then
+            break
+        else
+            echo "Error: Please enter 1 or 2"
+        fi
+    done
 
     # Detect interfaces (common step)
     echo "--- Detecting number of configured interfaces ---"
@@ -196,8 +239,15 @@ uninstall() {
     # Specific uninstallation logic
     case $uninstall_choice in
         1)
-            # Uninstall SELKS
-            read -e -p "Enter the installation path for SELKS that was used: " -i "$HOME/SELKS" PATH_SELKS
+            # Uninstall SELKS with path validation
+            while true; do
+                read -e -p "Enter the installation path for SELKS that was used: " -i "$HOME/SELKS" PATH_SELKS
+                if [[ -n "$PATH_SELKS" && "$PATH_SELKS" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
+                    break
+                else
+                    echo "Error: Please enter a valid path (no spaces or special characters except /, -, ., _)"
+                fi
+            done
             if [ -d "$PATH_SELKS" ]; then
                 echo "--- Removing SELKS from $PATH_SELKS ---"
                 cd $PATH_SELKS/docker
@@ -209,8 +259,15 @@ uninstall() {
             fi
             ;;
         2)
-            # Uninstall Clean NDR
-            read -e -p "Enter the installation path for Clean NDR that was used: " -i "/root/NDR" PATH_NDR
+            # Uninstall Clean NDR with path validation
+            while true; do
+                read -e -p "Enter the installation path for Clean NDR that was used: " -i "/root/NDR" PATH_NDR
+                if [[ -n "$PATH_NDR" && "$PATH_NDR" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
+                    break
+                else
+                    echo "Error: Please enter a valid path (no spaces or special characters except /, -, ., _)"
+                fi
+            done
             if [ -d "$PATH_NDR" ]; then
                 echo "--- Removing Clean NDR from $PATH_NDR ---"
                 cd $PATH_NDR
@@ -321,7 +378,7 @@ while true; do
             exit 0
             ;;
         *)
-            echo "Invalid option. Please try again."
+            echo "Error: Please enter a number between 1 and 4"
             sleep 2
             ;;
     esac
