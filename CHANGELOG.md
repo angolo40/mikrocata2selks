@@ -1,3 +1,9 @@
+# Changelog - v3.0.2 (July 2025)
+
+## Bug Fix
+
+*   Fixed Telegram duplicate message sending issue
+
 # Changelog - v3.0.1 (July 2025)
 
 ## Bug Fix

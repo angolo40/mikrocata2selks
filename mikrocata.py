@@ -15,7 +15,7 @@ from librouteros import connect
 from librouteros.query import Key
 import requests
 
-VERSION = "3.0.0"
+VERSION = "3.0.2"
 
 # ------------------------------------------------------------------------------
 ################# START EDIT SETTINGS
@@ -314,8 +314,9 @@ def add_to_tik(alerts):
             if enable_telegram:
                 debug_log("Telegram notifications enabled, sending message")
                 clean_message = sanitize_text(f"From: {wanted_ip}\nTo: {src_ip}:{str(wanted_port)}\nRule: {cmnt}")
-                response = requests.get(sendTelegram(clean_message))
-                debug_log(f"Telegram API response: {response.status_code}")
+                response = sendTelegram(clean_message)
+                if response:
+                    debug_log(f"Telegram message sent successfully")
 
         except librouteros.exceptions.TrapError as e:
             debug_log(f"MikroTik TrapError: {str(e)}")
@@ -592,10 +593,11 @@ def sendTelegram(message):
         try:
             response = requests.get(telegram_url)
             debug_log(f"Telegram response: {response.json()}")
-            return telegram_url
+            return response.status_code == 200
         except Exception as e:
             print(f"[Mikrocata] Failed to send Telegram message: {e}")
-    return ""
+            debug_log(f"Telegram error details: {str(e)}")
+    return False
 
 
 def main():
