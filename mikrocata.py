@@ -633,8 +633,7 @@ def in_ignore_list(ignr_list, event):
 #HTTP Proxy support!
 def sendTelegram(message):
     if enable_telegram:
-        telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage?chat_id={TELEGRAM_CHATID}&text={TELEGRAM_HEADE
-R}{message}&disable_web_page_preview=true&parse_mode=html"
+        telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage?chat_id={TELEGRAM_CHATID}&text={TELEGRAM_HEADER}{message}&disable_web_page_preview=true&parse_mode=html"
         try:
             proxies = TELEGRAM_PROXY if TELEGRAM_PROXY_ENABLED else None
             response = requests.get(telegram_url, proxies=proxies, timeout=10)
