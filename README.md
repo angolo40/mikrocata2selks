@@ -2,7 +2,7 @@
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-4.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/angolo40/mikrocata2selks" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/github/license/angolo40/Mikrocata2SELKS" />
+    <img alt="License: GPL-3.0" src="https://img.shields.io/github/license/angolo40/Mikrocata2SELKS" />
   </a>
 </p>
 
@@ -237,6 +237,10 @@ flowchart TD
 - [GitHub](https://github.com/angolo40)
 
 Inspired by [zzbe/mikrocata](https://github.com/zzbe/mikrocata).
+
+## License
+
+This project is released under the [GNU General Public License v3.0](LICENSE).
 
 ## 🤝 Contributing
 
