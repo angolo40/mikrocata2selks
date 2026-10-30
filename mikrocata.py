@@ -15,7 +15,7 @@ from librouteros import connect
 from librouteros.query import Key
 import requests
 
-VERSION = "4.0.0"
+VERSION = "4.0.1"
 
 # ------------------------------------------------------------------------------
 ################# START EDIT SETTINGS
@@ -34,7 +34,7 @@ enable_telegram = False
 TELEGRAM_TOKEN = "TOKEN"
 TELEGRAM_CHATID = "CHATID"
 TELEGRAM_HEADER = "\U0001F43F Suricata ALERT:"
-TELEGRAM_PROXY_ENABLED = True
+TELEGRAM_PROXY_ENABLED = False
 TELEGRAM_PROXY = {
     "http":  "http://user:pass@domain:port",
     "https": "http://user:pass@domain:port"
@@ -225,6 +225,28 @@ def read_json(fpath):
             sleep(10)
             continue
 
+def pick_target(event):
+    """Return (ip to block, service port, outbound) for an alert, or None if both sides are whitelisted.
+
+    Outbound means the whitelisted side started the flow, so the block lands on the
+    remote address and the internal host is the one worth looking at.
+    """
+    src_ip, dest_ip = event["src_ip"], event["dest_ip"]
+    if is_ip_in_whitelist(src_ip, WHITELIST_IPS):
+        if is_ip_in_whitelist(dest_ip, WHITELIST_IPS):
+            return None
+        return dest_ip, event.get("dest_port"), True
+    return src_ip, event.get("dest_port"), False
+
+def format_alert(event, wanted_ip, outbound, comment):
+    """Build the notification text with the real flow direction, as logged in eve.json."""
+    direction = "outbound, check the internal host" if outbound else "inbound"
+    return (f"Blocked: {wanted_ip}\n"
+            f"From: {event['src_ip']}:{event.get('src_port')}\n"
+            f"To: {event['dest_ip']}:{event.get('dest_port')}\n"
+            f"Direction: {direction}\n"
+            f"Rule: {comment}")
+
 def add_to_tik(alerts):
     global last_pos
     global api
@@ -250,9 +272,10 @@ def add_to_tik(alerts):
         print(f"[Mikrocata] Error connecting to Mikrotik API: {str(e)}")
         raise
 
-    # Remove duplicate src_ips
-    unique_alerts = {item['src_ip']: item for item in alerts}.values()
-    debug_log(f"Processing {len(unique_alerts)} unique source IPs from alerts")
+    # Remove duplicate src/dest pairs. Keying on src_ip alone drops alerts when one
+    # internal host talks to many remote addresses in the same batch.
+    unique_alerts = {(item['src_ip'], item['dest_ip']): item for item in alerts}.values()
+    debug_log(f"Processing {len(unique_alerts)} unique address pairs from alerts")
 
     for event in unique_alerts:
         debug_log(f"Processing alert: SID={event['alert']['signature_id']}, Severity={event['alert']['severity']}")
@@ -301,20 +324,13 @@ def add_to_tik(alerts):
             debug_log(f"IPv6 address detected: {event['src_ip']}")
             curr_list = address_list_v6
 
-        # Check whitelist with improved function
-        if is_ip_in_whitelist(event["src_ip"], WHITELIST_IPS):
-            debug_log(f"Source IP {event['src_ip']} in whitelist")
-            if is_ip_in_whitelist(event["dest_ip"], WHITELIST_IPS):
-                debug_log(f"Destination IP {event['dest_ip']} also in whitelist - skipping alert")
-                continue
-
-            wanted_ip, wanted_port = event["dest_ip"], event.get("src_port")
-            src_ip, src_port = event["src_ip"], event.get("dest_port")
-            debug_log(f"Source IP in whitelist, targeting destination: {wanted_ip}")
-        else:
-            wanted_ip, wanted_port = event["src_ip"], event.get("dest_port")
-            src_ip, src_port = event["dest_ip"], event.get("src_port")
-            debug_log(f"Targeting source IP: {wanted_ip}")
+        # Decide which side to block
+        target = pick_target(event)
+        if target is None:
+            debug_log(f"Both {event['src_ip']} and {event['dest_ip']} are whitelisted - skipping alert")
+            continue
+        wanted_ip, wanted_port, outbound = target
+        debug_log(f"Targeting {wanted_ip} (outbound={outbound})")
 
         # Check if target IP is in whitelist
         if is_ip_in_whitelist(wanted_ip, WHITELIST_IPS):
@@ -354,7 +370,7 @@ def add_to_tik(alerts):
             # Telegram notifications
             if enable_telegram:
                 debug_log("Telegram notifications enabled, sending message")
-                clean_message = sanitize_text(f"From: {wanted_ip}\nTo: {src_ip}:{str(wanted_port)}\nRule: {cmnt}")
+                clean_message = sanitize_text(format_alert(event, wanted_ip, outbound, cmnt))
                 response = sendTelegram(clean_message)
                 if response:
                     debug_log(f"Telegram message sent successfully")
@@ -633,10 +649,11 @@ def in_ignore_list(ignr_list, event):
 #HTTP Proxy support!
 def sendTelegram(message):
     if enable_telegram:
-        telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage?chat_id={TELEGRAM_CHATID}&text={TELEGRAM_HEADER}{message}&disable_web_page_preview=true&parse_mode=html"
+        telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+        payload = {"chat_id": TELEGRAM_CHATID, "text": f"{TELEGRAM_HEADER}\n{message}", "disable_web_page_preview": "true"}
         try:
             proxies = TELEGRAM_PROXY if TELEGRAM_PROXY_ENABLED else None
-            response = requests.get(telegram_url, proxies=proxies, timeout=10)
+            response = requests.post(telegram_url, data=payload, proxies=proxies, timeout=10)
             debug_log(f"Telegram response: {response.json()}")
             return response.status_code == 200
         except Exception as e:

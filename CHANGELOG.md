@@ -1,3 +1,14 @@
+# Changelog - v4.0.1 (unreleased)
+
+### Bug Fixes
+
+*   **Startup crash:** Fixed the syntax error in `sendTelegram` that stopped `mikrocata.py` from starting.
+*   **Telegram proxy:** `TELEGRAM_PROXY_ENABLED` now defaults to `False`, so notifications no longer go to the placeholder proxy.
+*   **Telegram text:** The message is sent in the request body, so characters like `&` no longer cut it short.
+*   **Alert direction (#53):** Notifications now show the real source and destination from `eve.json`, and outbound alerts are labelled. The port in the address-list comment is now the service port instead of the client port.
+*   **Lost alerts:** Alerts in a batch are deduplicated by source and destination pair. Before, an internal host talking to several remote addresses kept only one of them.
+*   **License notice:** The README badge text said MIT. The project license is GPL-3.0, as stated in `LICENSE`.
+
 # Changelog - v4.0.0 (November 2025)
 
 ## BREAKING CHANGES
