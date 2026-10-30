@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Mikrocata2SELKS 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-4.0.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-4.0.1-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/angolo40/mikrocata2selks" target="_blank">
     <img alt="License: GPL-3.0" src="https://img.shields.io/github/license/angolo40/Mikrocata2SELKS" />
   </a>
@@ -152,7 +152,7 @@ flowchart TD
         M2[Mikrotik2 Port:37010]
     end
 
-    subgraph Debian_Server ["Debian Server (Clean NDR)"]
+    subgraph Debian_Server ["Debian Server (Clear NDR)"]
         subgraph Interfaces
             I0[Interface:tzsp0 Port:37008]
             I1[Interface:tzsp1 Port:37009]

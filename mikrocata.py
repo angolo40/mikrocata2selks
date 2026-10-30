@@ -67,7 +67,7 @@ DEBUG_MODE = False
 # ------------------------------------------------------------------------------
 LISTEN_INTERFACE=("tzsp0")
 
-# Suricata log file - Clean NDR default path
+# Suricata log file - Clear NDR default path
 NDR_SURICATA_LOG_PATH="/root/NDR/config/containers-data/suricata/logs/"
 FILEPATH = os.path.abspath(NDR_SURICATA_LOG_PATH + "eve.json")
 
@@ -185,9 +185,9 @@ def seek_to_end(fpath):
 
                 # Show helpful message after several retries
                 if retry_count % 6 == 0:  # Every minute (6 retries * 10 seconds)
-                    print(f"[Mikrocata] TIP: Check if Clean NDR is running and if NDR_SURICATA_LOG_PATH is correct in the config")
+                    print(f"[Mikrocata] TIP: Check if Clear NDR is running and if NDR_SURICATA_LOG_PATH is correct in the config")
                     print(f"[Mikrocata]      Current path: {NDR_SURICATA_LOG_PATH}")
-                    print(f"[Mikrocata]      Check Clean NDR status: docker ps | grep suricata")
+                    print(f"[Mikrocata]      Check Clear NDR status: docker ps | grep suricata")
 
                 sleep(10)
                 continue
@@ -218,9 +218,9 @@ def read_json(fpath):
 
             # Show helpful message after several retries
             if retry_count % 6 == 0:  # Every minute (6 retries * 10 seconds)
-                print(f"[Mikrocata] TIP: Check if Clean NDR is running and if NDR_SURICATA_LOG_PATH is correct in the config")
+                print(f"[Mikrocata] TIP: Check if Clear NDR is running and if NDR_SURICATA_LOG_PATH is correct in the config")
                 print(f"[Mikrocata]      Current path: {NDR_SURICATA_LOG_PATH}")
-                print(f"[Mikrocata]      Check Clean NDR status: docker ps | grep suricata")
+                print(f"[Mikrocata]      Check Clear NDR status: docker ps | grep suricata")
 
             sleep(10)
             continue

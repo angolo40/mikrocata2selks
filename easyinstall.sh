@@ -1,5 +1,5 @@
 #!/bin/bash
-# easyinstall.sh - A script to install Mikrocata for Clean NDR
+# easyinstall.sh - A script to install Mikrocata for Clear NDR
 
 install_dependencies() {
     echo "--- Install required package ---"
@@ -84,12 +84,12 @@ install_base_components() {
     cd $PATH_GIT_MIKROCATA
 }
 
-install_clean_ndr() {
-    echo "--- Clean NDR Installer ---"
+install_clear_ndr() {
+    echo "--- Clear NDR Installer ---"
     
-    # Validate Clean NDR installation path
+    # Validate Clear NDR installation path
     while true; do
-        read -e -p "Enter the installation path for Clean NDR: " -i "/root/NDR" PATH_NDR
+        read -e -p "Enter the installation path for Clear NDR: " -i "/root/NDR" PATH_NDR
         if [[ -n "$PATH_NDR" && "$PATH_NDR" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
             break
         else
@@ -109,7 +109,7 @@ install_clean_ndr() {
     install_dependencies
     install_base_components
 
-    echo "--- Installing Stamus Clean NDR ---"
+    echo "--- Installing Stamus Clear NDR ---"
     wget https://dl.clearndr.io/stamusctl-linux-amd64 -O /usr/local/bin/stamusctl
     chmod +x /usr/local/bin/stamusctl
 
@@ -118,7 +118,7 @@ install_clean_ndr() {
     stamusctl config set suricata.interfaces=tzsp0
     stamusctl compose up -d
     
-    echo "--- Clean NDR INSTALL COMPLETED ---"
+    echo "--- Clear NDR INSTALL COMPLETED ---"
     print_summary
 }
 
@@ -130,8 +130,8 @@ uninstall() {
         exit 1
     fi
 
-    # Clean NDR uninstall (SELKS is no longer supported)
-    echo "This will uninstall Clean NDR."
+    # Clear NDR uninstall (SELKS is no longer supported)
+    echo "This will uninstall Clear NDR."
     uninstall_choice=2
 
     # Detect interfaces (common step)
@@ -171,9 +171,9 @@ uninstall() {
 
     rm -rf /var/lib/mikrocata
 
-    # Uninstall Clean NDR with path validation
+    # Uninstall Clear NDR with path validation
     while true; do
-        read -e -p "Enter the installation path for Clean NDR that was used: " -i "/root/NDR" PATH_NDR
+        read -e -p "Enter the installation path for Clear NDR that was used: " -i "/root/NDR" PATH_NDR
         if [[ -n "$PATH_NDR" && "$PATH_NDR" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
             break
         else
@@ -181,13 +181,13 @@ uninstall() {
         fi
     done
     if [ -d "$PATH_NDR" ]; then
-        echo "--- Removing Clean NDR from $PATH_NDR ---"
+        echo "--- Removing Clear NDR from $PATH_NDR ---"
         cd $PATH_NDR
         stamusctl compose down
         cd ..
         rm -rf $PATH_NDR
     else
-        echo "--- Clean NDR directory not found at $PATH_NDR, skipping ---"
+        echo "--- Clear NDR directory not found at $PATH_NDR, skipping ---"
     fi
 
     if [ -f "/usr/local/bin/stamusctl" ]; then
@@ -255,12 +255,12 @@ print_summary() {
 while true; do
     clear
     echo "========================================"
-    echo "   Mikrocata Clean NDR Installer"
+    echo "   Mikrocata Clear NDR Installer"
     echo "========================================"
-    echo "1. Install Clean NDR"
+    echo "1. Install Clear NDR"
     echo "   (A free, open-source NDR solution.)"
     echo "   NOTE: SELKS repository has been removed by Stamus Networks."
-    echo "   Only Clean NDR is now supported."
+    echo "   Only Clear NDR is now supported."
     echo ""
     echo "2. Uninstall"
     echo "3. Exit"
@@ -269,7 +269,7 @@ while true; do
 
     case $choice in
         1)
-            install_clean_ndr
+            install_clear_ndr
             break
             ;;
         2)

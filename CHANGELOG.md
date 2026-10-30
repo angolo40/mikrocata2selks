@@ -1,4 +1,4 @@
-# Changelog - v4.0.1 (unreleased)
+# Changelog - v4.0.1 (October 2026)
 
 ### Bug Fixes
 
@@ -8,19 +8,20 @@
 *   **Alert direction (#53):** Notifications now show the real source and destination from `eve.json`, and outbound alerts are labelled. The port in the address-list comment is now the service port instead of the client port.
 *   **Lost alerts:** Alerts in a batch are deduplicated by source and destination pair. Before, an internal host talking to several remote addresses kept only one of them.
 *   **License notice:** The README badge text said MIT. The project license is GPL-3.0, as stated in `LICENSE`.
+*   **Naming:** Corrected "Clean NDR" to "Clear NDR" everywhere, including the installer messages.
 
 # Changelog - v4.0.0 (November 2025)
 
 ## BREAKING CHANGES
 
-**IMPORTANT**: Stamus Networks has removed the SELKS repository (https://github.com/StamusNetworks/SELKS.git). As a result, this project now exclusively supports **Clean NDR**.
+**IMPORTANT**: Stamus Networks has removed the SELKS repository (https://github.com/StamusNetworks/SELKS.git). As a result, this project now exclusively supports **Clear NDR**.
 
 ### Major Changes
 
-*   **SELKS Removal:** Removed all SELKS installation options from the installer. Only Clean NDR is now supported.
+*   **SELKS Removal:** Removed all SELKS installation options from the installer. Only Clear NDR is now supported.
 *   **Single Mikrotik Support:** Official support is now limited to **one Mikrotik device**. Multiple Mikrotik devices can still be configured manually (documentation will be added in future updates).
 *   **Variable Rename:** Renamed `SELKS_CONTAINER_DATA_SURICATA_LOG` to `NDR_SURICATA_LOG_PATH` in `mikrocata.py`.
-*   **Updated Defaults:** Changed default log path from `/root/SELKS/docker/containers-data/suricata/logs/` to `/root/NDR/config/containers-data/suricata/logs/` (Clean NDR default).
+*   **Updated Defaults:** Changed default log path from `/root/SELKS/docker/containers-data/suricata/logs/` to `/root/NDR/config/containers-data/suricata/logs/` (Clear NDR default).
 
 ### New Features
 
@@ -35,24 +36,24 @@
     - The `connect_to_tik()` function now explicitly passes `server_hostname` parameter to `ssl.wrap_socket()` using a lambda function.
     - This fix ensures compatibility with both old and new Python versions.
 
-*   **Clean NDR Path Detection:** Resolved issue where Mikrocata would loop infinitely looking for eve.json in the wrong path. (thanks to LeoSaraArvore)
-    - Changed default path from SELKS (`/root/SELKS/docker/...`) to Clean NDR (`/root/NDR/config/...`).
+*   **Clear NDR Path Detection:** Resolved issue where Mikrocata would loop infinitely looking for eve.json in the wrong path. (thanks to LeoSaraArvore)
+    - Changed default path from SELKS (`/root/SELKS/docker/...`) to Clear NDR (`/root/NDR/config/...`).
     - Renamed configuration variable from `SELKS_CONTAINER_DATA_SURICATA_LOG` to `NDR_SURICATA_LOG_PATH`.
-    - Installer now correctly updates the path during Clean NDR installation.
+    - Installer now correctly updates the path during Clear NDR installation.
     - Added helpful diagnostic messages after repeated failures to help users troubleshoot path issues.
 
 ### Technical Improvements
 
-*   Simplified installer menu to only offer Clean NDR installation.
-*   Updated documentation to reflect SELKS deprecation and Clean NDR focus.
-*   Updated uninstaller to only support Clean NDR removal.
+*   Simplified installer menu to only offer Clear NDR installation.
+*   Updated documentation to reflect SELKS deprecation and Clear NDR focus.
+*   Updated uninstaller to only support Clear NDR removal.
 *   Added timezone conversion for timestamps in alerts and notifications.
 
 ### Migration Notes
 
 If you are currently using SELKS:
 - SELKS will continue to work if already installed, but new installations are not possible.
-- Consider migrating to Clean NDR for future updates and support installing on a new machine.
+- Consider migrating to Clear NDR for future updates and support installing on a new machine.
 
 ---
 
@@ -74,7 +75,7 @@ If you are currently using SELKS:
 ## Key Features
 
 *   **Interactive Installer:** The `easyinstall.sh` script is now fully interactive, guiding the user through the installation process.
-*   **Choice of NDR:** Added support for installing **Clean NDR** (the evolution of SELKS) as an alternative to the classic **SELKS** installation.
+*   **Choice of NDR:** Added support for installing **Clear NDR** (the evolution of SELKS) as an alternative to the classic **SELKS** installation.
 *   **Complete Uninstallation:** Implemented a full uninstallation option in the installer to remove all components, services, and files.
 
 ## Technical Improvements
